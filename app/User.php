@@ -6,10 +6,11 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Monica\Infrastructure\Utils\Uuids;
+use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable, Uuids;
+    use Notifiable, Uuids, HasRolesAndAbilities;
 
     public $incrementing = false;
 
