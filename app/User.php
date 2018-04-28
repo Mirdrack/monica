@@ -5,10 +5,13 @@ namespace Monica;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Monica\Infrastructure\Utils\Uuids;
 
 class User extends Authenticatable implements JWTSubject
 {
-    use Notifiable;
+    use Notifiable, Uuids;
+
+    public $incrementing = false;
 
     /**
      * The attributes that are mass assignable.
