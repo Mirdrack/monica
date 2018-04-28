@@ -4,17 +4,25 @@ namespace Monica\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Tymon\JWTAuth\JWTAuth;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
+/**
+ * Handles authentication functionality
+ */
 class AuthController extends Controller
 {
+
+    protected $jwt;
     /**
      * Create a new AuthController instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(JWTAuth $jwt)
     {
-        $this->middleware('auth:api', ['except' => ['login']]);
+        $this->jwt = $jwt;
+        $this->middleware('auth:api', ['except' => ['login', 'refresh']]);
     }
 
     /**
@@ -62,7 +70,15 @@ class AuthController extends Controller
      */
     public function refresh()
     {
-        return $this->respondWithToken(auth()->refresh());
+        try {
+            if (! $user = $this->jwt->parseToken()->authenticate()) {
+                return response()->json(['user_not_found'], 404);
+            }
+        } catch (TokenExpiredException $e) {
+                $oldToken = $this->jwt->getToken();
+                $refreshed = $this->jwt->refresh($oldToken);
+                return response()->json(['access_token' => $refreshed]);
+        } 
     }
 
     /**
@@ -79,5 +95,9 @@ class AuthController extends Controller
             'token_type' => 'bearer',
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
+    }
+
+    public function store(Request $request) {
+        return json_encode(['message' => $request->all()]);
     }
 }
