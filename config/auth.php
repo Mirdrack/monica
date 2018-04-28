@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => Monica\User::class,
+            'model' => Monica\Models\User::class,
         ],
 
         // 'users' => [
