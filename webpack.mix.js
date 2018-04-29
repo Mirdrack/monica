@@ -12,4 +12,6 @@ let mix = require('laravel-mix');
  */
 
 mix.js('resources/assets/js/app.js', 'public/js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
+	.copy('node_modules/admin-lte/dist/css/AdminLTE.min.css', 'public/css/adminlte')
+	.copy('node_modules/admin-lte/dist/css/skins/skin-blue.min.css', 'public/css/adminlte/skins')
+	.sass('resources/assets/sass/app.scss', 'public/css');
