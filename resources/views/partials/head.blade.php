@@ -24,7 +24,7 @@
 <![endif]-->
 
 <link href="{{ url('css/app.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ url('adminlte/css') }}/select2.min.css"/>
+<link rel="stylesheet" href="{{ url('css/select2.min.css') }}"/>
 <link href="{{ url('css/adminlte/AdminLTE.min.css') }}" rel="stylesheet">
 <link href="{{ url('css/adminlte/skins/skin-blue.min.css') }}" rel="stylesheet">
 <link rel="stylesheet"
