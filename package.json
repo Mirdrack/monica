@@ -19,6 +19,7 @@
     "lodash": "^4.17.4"
   },
   "dependencies": {
-    "admin-lte": "^2.4.3"
+    "admin-lte": "2.3.8",
+    "fastclick": "^1.0.6"
   }
 }
