@@ -34,6 +34,9 @@ $this->patch('change_password', 'Auth\ChangePasswordController@changePassword')-
 
 // Admin Password Reset Routes...
 $this->get('admin/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.reset');
+$this->get('admin/password/reset/{email}/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.restore');
+$this->post('admin/password/email', 'Auth\AdminForgotPasswordController@sendResetLinkEmail')->name('admin.password.email');
+$this->post('admin/password/reset', 'Auth\AdminResetPasswordController@reset')->name('admin.password.reset');
 
 // Password Reset Routes...
 $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('auth.password.reset');

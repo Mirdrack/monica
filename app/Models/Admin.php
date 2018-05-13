@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Monica\Infrastructure\Utils\Uuids;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
 use Illuminate\Support\Facades\Hash;
+use Monica\Mail\Auth\AdminResetPassword as AdminResetPasswordNotification;
 
 class Admin extends Authenticatable
 {
@@ -38,5 +39,16 @@ class Admin extends Authenticatable
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AdminResetPasswordNotification($token, $this->email));
     }
 }
