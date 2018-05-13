@@ -29,8 +29,8 @@ $this->get('admin/change_password', 'Auth\AdminChangePasswordController@showChan
 $this->patch('admin/change_password', 'Auth\AdminChangePasswordController@changePassword')->name('admin.change_password');
 
 // Change Password Routes...
-$this->get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
-$this->patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
+$this->get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('dashboard.change_password');
+$this->patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('dashboard.change_password');
 
 // Admin Password Reset Routes...
 $this->get('admin/password/reset', 'Auth\AdminForgotPasswordController@showLinkRequestForm')->name('admin.password.reset');
@@ -53,9 +53,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
 Route::group([/*'middleware' => ['auth.web'],*/ 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     Route::get('/home', 'HomeController@index');
-    // Route::resource('abilities', 'Admin\AbilitiesController');
-    // Route::post('abilities_mass_destroy', ['uses' => 'Admin\AbilitiesController@massDestroy', 'as' => 'abilities.mass_destroy']);
-    // Route::resource('roles', 'Admin\RolesController');
+    Route::resource('roles', 'Dashboard\RolesController');
     // Route::post('roles_mass_destroy', ['uses' => 'Admin\RolesController@massDestroy', 'as' => 'roles.mass_destroy']);
     Route::resource('users', 'Dashboard\UsersController');
     Route::post('users_mass_destroy', ['uses' => 'Dashboard\UsersController@massDestroy', 'as' => 'users.mass_destroy']);

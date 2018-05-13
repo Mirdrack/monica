@@ -2,7 +2,7 @@
 
 @section('content')
     <h3 class="page-title">@lang('global.users.title')</h3>
-    {!! Form::open(['method' => 'POST', 'route' => ['admin.users.store']]) !!}
+    {!! Form::open(['method' => 'POST', 'route' => ['dashboard.users.store']]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">

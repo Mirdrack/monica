@@ -6,8 +6,8 @@ use Silber\Bouncer\Database\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Monica\Http\Controllers\Controller;
-use Monica\Http\Requests\Admin\StoreUsersRequest;
-use Monica\Http\Requests\Admin\UpdateUsersRequest;
+use Monica\Http\Requests\User\StoreUsersRequest;
+use Monica\Http\Requests\User\UpdateUsersRequest;
 use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
@@ -44,7 +44,7 @@ class UsersController extends Controller
         }
         $roles = Role::get()->pluck('name', 'name');
 
-        return view('admin.users.create', compact('roles'));
+        return view('dashboard.users.create', compact('roles'));
     }
 
     /**
@@ -64,7 +64,7 @@ class UsersController extends Controller
             $user->assign($role);
         }
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('dashboard.users.index');
     }
 
 
@@ -83,7 +83,7 @@ class UsersController extends Controller
 
         $user = User::findOrFail($id);
 
-        return view('admin.users.edit', compact('user', 'roles'));
+        return view('dashboard.users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -107,7 +107,7 @@ class UsersController extends Controller
             $user->assign($role);
         }
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('dashboard.users.index');
     }
 
     /**
@@ -124,7 +124,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('dashboard.users.index');
     }
 
     /**

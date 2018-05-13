@@ -23,16 +23,8 @@
                 </a>
                 <ul class="treeview-menu">
 
-                    <li class="{{ $request->segment(2) == 'abilities' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.abilities.index') }}">
-                            <i class="fa fa-briefcase"></i>
-                            <span class="title">
-                                @lang('global.abilities.title')
-                            </span>
-                        </a>
-                    </li>
                     <li class="{{ $request->segment(2) == 'roles' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.roles.index') }}">
+                        <a href="{{ route('dashboard.roles.index') }}">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
                                 @lang('global.roles.title')
@@ -52,7 +44,7 @@
             @endcan
 
             <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
-                <a href="{{ route('auth.change_password') }}">
+                <a href="{{ route('dashboard.change_password') }}">
                     <i class="fa fa-key"></i>
                     <span class="title">Change password</span>
                 </a>
