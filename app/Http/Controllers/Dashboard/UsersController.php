@@ -1,5 +1,5 @@
 <?php
-namespace Monica\Http\Controllers\Admin;
+namespace Monica\Http\Controllers\Dashboard;
 
 use Monica\Models\User;
 use Silber\Bouncer\Database\Role;
@@ -29,8 +29,7 @@ class UsersController extends Controller
         }
 
         $users = User::with('roles')->get();
-
-        return view('admin.users.index', compact('users'));
+        return view('dashboard.users.index', compact('users'));
     }
 
     /**

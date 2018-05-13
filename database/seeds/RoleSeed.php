@@ -10,6 +10,7 @@ class RoleSeed extends Seeder
      */
     public function run()
     {
-        Bouncer::allow('administrator')->to('users_manage');
+        Bouncer::allow('administrator')->to('admins_manage');
+        Bouncer::allow('tenant_admin')->to('users_manage');
     }
 }

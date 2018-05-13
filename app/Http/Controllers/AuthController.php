@@ -98,6 +98,8 @@ class AuthController extends Controller
     }
 
     public function store(Request $request) {
-        return json_encode(['message' => $request->all()]);
+        $data = $request->all();
+        \Log::info(print_r($data, true));
+        return json_encode(['message' => $data]);
     }
 }

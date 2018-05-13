@@ -1,9 +1,9 @@
 <?php
-namespace Monica\Http\Requests\Admin;
+namespace Monica\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUsersRequest extends FormRequest
+class StoreRolesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,6 @@ class UpdateUsersRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$this->route('user'),
-            'roles' => 'required',
         ];
     }
 }

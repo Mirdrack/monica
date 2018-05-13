@@ -1,6 +1,13 @@
 <?php
 
 return [
+
+	'admin-management' => [
+		'title' => 'Admin Management',
+		'created_at' => 'Time',
+		'fields' => [
+		],
+	],
 	
 	'user-management' => [
 		'title' => 'User Management',
@@ -23,6 +30,18 @@ return [
 		'fields' => [
 			'name' => 'Name',
 			'abilities' => 'Abilities',
+		],
+	],
+
+	'admins' => [
+		'title' => 'Admins',
+		'created_at' => 'Time',
+		'fields' => [
+			'name' => 'Name',
+			'email' => 'Email',
+			'password' => 'Password',
+			'roles' => 'Roles',
+			'remember-token' => 'Remember token',
 		],
 	],
 	
@@ -51,5 +70,6 @@ return [
 	'app_back_to_list' => 'Back to list',
 	'app_dashboard' => 'Dashboard',
 	'app_delete' => 'Delete',
-	'global_title' => 'Roles-Permissions Manager',
+	'global_title' => 'App Dashboard',
+	'admin_dashboard_title' => 'Admin Dashboard',
 ];

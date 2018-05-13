@@ -14,8 +14,10 @@
 <script src="{{ url('js/select2.full.min.js') }}"></script>
 <script src="{{ url('js/main.js') }}"></script>
 
+<!-- 
 <script src="{{ url('adminlte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ url('adminlte/plugins/fastclick/fastclick.js') }}"></script>
+<script src="{{ url('adminlte/plugins/fastclick/fastclick.js') }}"></script> 
+-->
 <script src="{{ url('js/adminlte/app.min.js') }}"></script>
 <script>
     window._token = '{{ csrf_token() }}';

@@ -1,10 +1,10 @@
 @inject('request', 'Illuminate\Http\Request')
-@extends('layouts.app')
+@extends('layouts.admin-app')
 
 @section('content')
-    <h3 class="page-title">@lang('global.users.title')</h3>
+    <h3 class="page-title">@lang('global.admins.title')</h3>
     <p>
-        <a href="{{ route('admin.users.create') }}" class="btn btn-success">@lang('global.app_add_new')</a>
+        <a href="{{ route('admin.admins.create') }}" class="btn btn-success">@lang('global.app_add_new')</a>
     </p>
 
     <div class="panel panel-default">
@@ -13,39 +13,39 @@
         </div>
 
         <div class="panel-body table-responsive">
-            <table class="table table-bordered table-striped {{ count($users) > 0 ? 'datatable' : '' }} dt-select">
+            <table class="table table-bordered table-striped {{ count($admins) > 0 ? 'datatable' : '' }} dt-select">
                 <thead>
                     <tr>
                         <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>
 
-                        <th>@lang('global.users.fields.name')</th>
-                        <th>@lang('global.users.fields.email')</th>
-                        <th>@lang('global.users.fields.roles')</th>
+                        <th>@lang('global.admins.fields.name')</th>
+                        <th>@lang('global.admins.fields.email')</th>
+                        <th>@lang('global.admins.fields.roles')</th>
                         <th>&nbsp;</th>
 
                     </tr>
                 </thead>
                 
                 <tbody>
-                    @if (count($users) > 0)
-                        @foreach ($users as $user)
-                            <tr data-entry-id="{{ $user->id }}">
+                    @if (count($admins) > 0)
+                        @foreach ($admins as $admin)
+                            <tr data-entry-id="{{ $admin->id }}">
                                 <td></td>
 
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
+                                <td>{{ $admin->name }}</td>
+                                <td>{{ $admin->email }}</td>
                                 <td>
-                                    @foreach ($user->roles->pluck('name') as $role)
+                                    @foreach ($admin->roles->pluck('name') as $role)
                                         <span class="label label-info label-many">{{ $role }}</span>
                                     @endforeach
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.users.edit',[$user->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
+                                    <a href="{{ route('admin.admins.edit',[$admin->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
                                     {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                        'route' => ['admin.users.destroy', $user->id])) !!}
+                                        'route' => ['admin.admins.destroy', $admin->id])) !!}
                                     {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
                                     {!! Form::close() !!}
                                 </td>
@@ -65,6 +65,6 @@
 
 @section('javascript') 
     <script>
-        window.route_mass_crud_entries_destroy = '{{ route('admin.users.mass_destroy') }}';
+        window.route_mass_crud_entries_destroy = '{{ route('admin.admins.mass_destroy') }}';
     </script>
 @endsection

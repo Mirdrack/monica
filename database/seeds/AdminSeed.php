@@ -1,9 +1,8 @@
 <?php
-
 use Illuminate\Database\Seeder;
-use Monica\Models\User;
+use Monica\Models\Admin;
 
-class UserSeed extends Seeder
+class AdminSeed extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,11 +11,11 @@ class UserSeed extends Seeder
      */
     public function run()
     {
-        $user = User::create([
+        $admin = Admin::create([
             'name' => 'user',
-            'email' => 'user@user.com',
+            'email' => 'admin@admin.com',
             'password' => 'secret'
         ]);
-        $user->assign('tenant_admin');
+        $admin->assign('administrator');
     }
 }

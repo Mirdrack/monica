@@ -1,24 +1,24 @@
 <?php
 namespace Monica\Http\Controllers\Admin;
 
-use Silber\Bouncer\Database\Ability;
+use Monica\Models\Admin;
 use Silber\Bouncer\Database\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Monica\Http\Controllers\Controller;
-use Monica\Http\Requests\Admin\StoreRolesRequest;
-use Monica\Http\Requests\Admin\UpdateRolesRequest;
+use Monica\Http\Requests\Admin\StoreAdminsRequest;
+use Monica\Http\Requests\Admin\UpdateAdminsRequest;
 use Illuminate\Support\Facades\Auth;
 
-class RolesController extends Controller
+class AdminsController extends Controller
 {
     public function __construct()
     {
         Auth::shouldUse('admin');
     }
-
+    
     /**
-     * Display a listing of Role.
+     * Display a listing of Admin.
      *
      * @return \Illuminate\Http\Response
      */
@@ -28,13 +28,12 @@ class RolesController extends Controller
             return abort(401);
         }
 
-        $roles = Role::all();
-
-        return view('admin.roles.index', compact('roles'));
+        $admins = Admin::with('roles')->get();
+        return view('admin.admins.index', compact('admins'));
     }
 
     /**
-     * Show the form for creating new Role.
+     * Show the form for creating new Admin.
      *
      * @return \Illuminate\Http\Response
      */
@@ -43,31 +42,34 @@ class RolesController extends Controller
         if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
-        $abilities = Ability::get()->pluck('name', 'name');
+        $roles = Role::get()->pluck('name', 'name');
 
-        return view('admin.roles.create', compact('abilities'));
+        return view('admin.admins.create', compact('roles'));
     }
 
     /**
-     * Store a newly created Role in storage.
+     * Store a newly created Admin in storage.
      *
-     * @param  \Monica\Http\Requests\StoreRolesRequest  $request
+     * @param  \Monica\Http\Requests\StoreAdminsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreRolesRequest $request)
+    public function store(StoreAdminsRequest $request)
     {
         if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
-        $role = Role::create($request->all());
-        $role->allow($request->input('abilities'));
+        $admin = Admin::create($request->all());
 
-        return redirect()->route('admin.roles.index');
+        foreach ($request->input('roles') as $role) {
+            $admin->assign($role);
+        }
+
+        return redirect()->route('admin.admins.index');
     }
 
 
     /**
-     * Show the form for editing Role.
+     * Show the form for editing Admin.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -77,38 +79,40 @@ class RolesController extends Controller
         if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
-        $abilities = Ability::get()->pluck('name', 'name');
+        $roles = Role::get()->pluck('name', 'name');
 
-        $role = Role::findOrFail($id);
+        $admin = Admin::findOrFail($id);
 
-        return view('admin.roles.edit', compact('role', 'abilities'));
+        return view('admin.admins.edit', compact('admin', 'roles'));
     }
 
     /**
-     * Update Role in storage.
+     * Update Admin in storage.
      *
-     * @param  \Monica\Http\Requests\UpdateRolesRequest  $request
+     * @param  \Monica\Http\Requests\UpdateAdminsRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRolesRequest $request, $id)
+    public function update(UpdateAdminsRequest $request, $id)
     {
         if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
-        $role = Role::findOrFail($id);
-        $role->update($request->all());
-        foreach ($role->getAbilities() as $ability) {
-            $role->disallow($ability->name);
+        $admin = Admin::findOrFail($id);
+        $admin->fill($request->all());
+        $admin->save();
+        foreach ($admin->roles as $role) {
+            $admin->retract($role);
         }
-        $role->allow($request->input('abilities'));
+        foreach ($request->input('roles') as $role) {
+            $admin->assign($role);
+        }
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('admin.admins.index');
     }
 
-
     /**
-     * Remove Role from storage.
+     * Remove Admin from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -118,14 +122,14 @@ class RolesController extends Controller
         if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
-        $role = Role::findOrFail($id);
-        $role->delete();
+        $admin = Admin::findOrFail($id);
+        $admin->delete();
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('admin.admins.index');
     }
 
     /**
-     * Delete all selected Role at once.
+     * Delete all selected Admin at once.
      *
      * @param Request $request
      */
@@ -135,7 +139,7 @@ class RolesController extends Controller
             return abort(401);
         }
         if ($request->input('ids')) {
-            $entries = Role::whereIn('id', $request->input('ids'))->get();
+            $entries = Admin::whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();

@@ -10,8 +10,8 @@
 
 <div id="wrapper">
 
-@include('partials.topbar')
-@include('partials.sidebar')
+@include('partials.admin-topbar')
+@include('partials.admin-sidebar')
 
 <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
@@ -49,7 +49,7 @@
     </div>
 </div>
 
-{!! Form::open(['route' => 'user.logout', 'style' => 'display:none;', 'id' => 'logout']) !!}
+{!! Form::open(['route' => 'admin.logout', 'style' => 'display:none;', 'id' => 'logout']) !!}
 <button type="submit">Logout</button>
 {!! Form::close() !!}
 

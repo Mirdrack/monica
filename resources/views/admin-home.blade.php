@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin-app')
 
 @section('content')
     <div class="row">
@@ -7,7 +7,7 @@
                 <div class="panel-heading">Dashboard</div>
 
                 <div class="panel-body">
-                    User! You are logged in!
+                    You are logged in!
                 </div>
             </div>
         </div>

@@ -14,7 +14,7 @@ class AbilitiesController extends Controller
 {
     public function __construct()
     {
-        Auth::shouldUse('web');
+        Auth::shouldUse('admin');
     }
 
     /**
@@ -24,7 +24,7 @@ class AbilitiesController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('users_manage')) {
+        if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
 
@@ -40,7 +40,7 @@ class AbilitiesController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('users_manage')) {
+        if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
         return view('admin.abilities.create');
@@ -54,7 +54,7 @@ class AbilitiesController extends Controller
      */
     public function store(StoreAbilitiesRequest $request)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
         Ability::create($request->all());
@@ -71,7 +71,7 @@ class AbilitiesController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
         $ability = Ability::findOrFail($id);
@@ -88,7 +88,7 @@ class AbilitiesController extends Controller
      */
     public function update(UpdateAbilitiesRequest $request, $id)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
         $ability = Ability::findOrFail($id);
@@ -106,7 +106,7 @@ class AbilitiesController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
         $ability = Ability::findOrFail($id);
@@ -122,7 +122,7 @@ class AbilitiesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
         if ($request->input('ids')) {
