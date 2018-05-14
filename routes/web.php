@@ -49,6 +49,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::post('roles_mass_destroy', ['uses' => 'Admin\RolesController@massDestroy', 'as' => 'roles.mass_destroy']);
     Route::resource('admins', 'Admin\AdminsController');
     Route::post('admins_mass_destroy', ['uses' => 'Admin\AdminsController@massDestroy', 'as' => 'admins.mass_destroy']);
+
+    Route::resource('tenants', 'Admin\TenantController');
 });
 
 Route::group([/*'middleware' => ['auth.web'],*/ 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {

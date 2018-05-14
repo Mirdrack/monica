@@ -1,14 +1,15 @@
 <?php
+
 namespace Monica\Http\Controllers\Dashboard;
 
-use Monica\Models\User;
-use Silber\Bouncer\Database\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+use Monica\Models\User;
 use Monica\Http\Controllers\Controller;
 use Monica\Http\Requests\User\StoreUsersRequest;
 use Monica\Http\Requests\User\UpdateUsersRequest;
-use Illuminate\Support\Facades\Auth;
+use Silber\Bouncer\Database\Role;
 
 class UsersController extends Controller
 {
@@ -50,7 +51,7 @@ class UsersController extends Controller
     /**
      * Store a newly created User in storage.
      *
-     * @param  \Monica\Http\Requests\StoreUsersRequest  $request
+     * @param  \Monica\Http\Requests\User\StoreUsersRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUsersRequest $request)
@@ -89,7 +90,7 @@ class UsersController extends Controller
     /**
      * Update User in storage.
      *
-     * @param  \Monica\Http\Requests\UpdateUsersRequest  $request
+     * @param  \Monica\Http\Requests\User\UpdateUsersRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

@@ -44,6 +44,15 @@ return [
 			'remember-token' => 'Remember token',
 		],
 	],
+
+	'tenants' => [
+		'title' => 'Tenants',
+		'created_at' => 'Time',
+		'fields' => [
+			'name' => 'Name',
+			'email' => 'Email',
+		],
+	],
 	
 	'users' => [
 		'title' => 'Users',

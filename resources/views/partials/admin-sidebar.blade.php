@@ -47,6 +47,14 @@
                             </span>
                         </a>
                     </li>
+                    <li class="{{ $request->segment(2) == 'tenants' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.tenants.index') }}">
+                            <i class="fa fa-user"></i>
+                            <span class="title">
+                                @lang('global.tenants.title')
+                            </span>
+                        </a>
+                    </li>
                 </ul>
             </li>
             @endcan
