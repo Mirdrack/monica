@@ -13,7 +13,7 @@
 
 Route::get('/', function () { return view('welcome'); });
 
-Route::group(['domain' => '{tenant}.'.getenv('APP_DOMAIN')], function () {
+Route::group(['domain' => '{subdomain}.'.getenv('APP_DOMAIN')], function () {
     Route::get('login', 'Auth\LoginController@showLoginForm')->name('user.login');
     Route::post('login', 'Auth\LoginController@login')->name('user.login');
     Route::post('logout', 'Auth\LoginController@logout')->name('user.logout');    

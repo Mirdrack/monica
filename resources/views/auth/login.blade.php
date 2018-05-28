@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">{{ ucfirst(config('app.name')) }} Login</div>
+                <div class="panel-heading">{{ ucfirst($tenant->name) }} Login</div>
                 <div class="panel-body">
                     
                     @if (count($errors) > 0)
@@ -26,6 +26,10 @@
                         <input type="hidden"
                                name="_token"
                                value="{{ csrf_token() }}">
+
+                        <input type="hidden"
+                               name="tenant_id"
+                               value="{{ $tenant->id }}">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email</label>

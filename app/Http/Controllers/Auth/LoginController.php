@@ -5,6 +5,7 @@ namespace Monica\Http\Controllers\Auth;
 use Monica\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Monica\Models\Tenant;
 
 class LoginController extends Controller
 {
@@ -36,6 +37,15 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function showLoginForm($subdomain)
+    {
+        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        if ($tenant) {
+            return view('auth.login', compact('tenant'));
+        }
+        return redirect('/');
     }
 
     protected function guard()
