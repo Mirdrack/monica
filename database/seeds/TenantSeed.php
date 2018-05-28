@@ -14,6 +14,7 @@ class TenantSeed extends Seeder
     {
         Tenant::create([
             'name' => 'AE Techonologies',
+            'subdomain' => 'aetech',
         ]);
     }
 }
