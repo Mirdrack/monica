@@ -12,9 +12,15 @@ class TenantSeed extends Seeder
      */
     public function run()
     {
-        Tenant::create([
+        $aetech = [
             'name' => 'AE Techonologies',
             'subdomain' => 'aetech',
-        ]);
+        ];
+        $cmotion = [
+            'name' => 'C Motion',
+            'subdomain' => 'cmotion',
+        ];
+        Tenant::create($aetech);
+        Tenant::create($cmotion);
     }
 }
