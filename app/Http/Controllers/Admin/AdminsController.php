@@ -2,19 +2,26 @@
 namespace Monica\Http\Controllers\Admin;
 
 use Monica\Models\Admin;
-use Silber\Bouncer\Database\Role;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Monica\Http\Controllers\Controller;
 use Monica\Http\Requests\Admin\StoreAdminsRequest;
 use Monica\Http\Requests\Admin\UpdateAdminsRequest;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Auth\AuthManager as Auth;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Silber\Bouncer\Database\Role;
 
 class AdminsController extends Controller
 {
-    public function __construct()
+    protected $auth;
+
+    protected $gate;
+
+    public function __construct(Auth $auth, Gate $gate)
     {
-        Auth::shouldUse('admin');
+        $this->auth = $auth;
+        $this->gate = $gate;
+        $this->auth->shouldUse('admin');
+        $this->middleware('auth:admin');
     }
     
     /**
@@ -24,7 +31,7 @@ class AdminsController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
 
