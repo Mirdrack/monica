@@ -17,7 +17,16 @@ class UserSeed extends Seeder
         $user = User::create([
             'tenant_id' => $tenantId,
             'name' => 'user',
-            'email' => 'user@user.com',
+            'email' => 'user@aetech.com',
+            'password' => 'secret'
+        ]);
+        $user->assign('tenant_admin');
+
+        $tenantId = Tenant::orderBy('created_at', 'asc')->get()->last()->id;
+        $user = User::create([
+            'tenant_id' => $tenantId,
+            'name' => 'user',
+            'email' => 'user@cmotion.com',
             'password' => 'secret'
         ]);
         $user->assign('tenant_admin');
