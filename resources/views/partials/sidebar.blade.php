@@ -24,7 +24,8 @@
                 <ul class="treeview-menu">
 
                     <li class="{{ $request->segment(2) == 'roles' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('dashboard.roles.index') }}">
+                        <!-- real line <a href="route('dashboard.roles.index') "> -->
+                        <a href="#">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
                                 @lang('global.roles.title')
@@ -59,6 +60,6 @@
         </ul>
     </section>
 </aside>
-{!! Form::open(['route' => 'user.logout', 'style' => 'display:none;', 'id' => 'logout']) !!}
+{{!! Form::open(['route' => ['user.logout', $subdomain], 'style' => 'display:none;', 'id' => 'logout']) !!}
 <button type="submit">@lang('global.logout')</button>
 {!! Form::close() !!}

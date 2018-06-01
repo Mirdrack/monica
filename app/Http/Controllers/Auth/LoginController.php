@@ -5,6 +5,7 @@ namespace Monica\Http\Controllers\Auth;
 use Monica\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 use Monica\Models\Tenant;
 
 class LoginController extends Controller
@@ -46,6 +47,32 @@ class LoginController extends Controller
             return view('auth.login', compact('tenant'));
         }
         return redirect('/');
+    }
+
+    /**
+     * Log the user out of the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request, $subdomain)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return redirect()->route('user.login', $subdomain);
+    }
+
+    /**
+     * Get the needed authorization credentials from the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    protected function credentials(Request $request)
+    {
+        return $request->only($this->username(), 'password', 'tenant_id');
     }
 
     protected function guard()
