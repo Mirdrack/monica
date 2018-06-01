@@ -40,6 +40,12 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+    /**
+     * Show the application's login form.
+     *
+     * @param string $subdomain
+     * @return \Illuminate\Http\Response
+     */
     public function showLoginForm($subdomain)
     {
         $tenant = Tenant::where('subdomain', $subdomain)->first();
@@ -75,6 +81,11 @@ class LoginController extends Controller
         return $request->only($this->username(), 'password', 'tenant_id');
     }
 
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
     protected function guard()
     {
         return Auth::guard('web');
