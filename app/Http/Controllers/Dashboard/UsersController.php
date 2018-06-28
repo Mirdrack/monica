@@ -3,9 +3,10 @@
 namespace Monica\Http\Controllers\Dashboard;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Auth\AuthManager as Auth;
 use Monica\Models\User;
+use Monica\Models\Tenant;
 use Monica\Http\Controllers\Controller;
 use Monica\Http\Requests\User\StoreUsersRequest;
 use Monica\Http\Requests\User\UpdateUsersRequest;
@@ -13,9 +14,29 @@ use Silber\Bouncer\Database\Role;
 
 class UsersController extends Controller
 {
-    public function __construct()
+    /**
+     * Handle authentication functions
+     * @var \Illuminate\Auth\AuthManager
+     */
+    protected $auth;
+
+    /**
+     * Checks the user permissions
+     * @var \Illuminate\Contracts\Auth\Access\Gate
+     */
+    protected $gate;
+
+    /**
+     * Sets auth manager and permission gate and the middlewares
+     * @param Auth $auth
+     * @param Gate $gate
+     */
+    public function __construct(Auth $auth, Gate $gate)
     {
-        Auth::shouldUse('web');
+        $this->auth = $auth;
+        $this->gate = $gate;
+        $this->auth->guard('web');
+        $this->middleware('auth:web');
     }
     
     /**
@@ -23,14 +44,19 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($subdomain)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-
-        $users = User::with('roles')->get();
-        return view('dashboard.users.index', compact('users'));
+        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        if ($tenant) {
+            $users = User::with('roles')
+                        ->where('tenant_id', $tenant->id)
+                        ->get();
+            return view('dashboard.users.index', compact('users', 'subdomain'));
+        }
+        return abort(404);
     }
 
     /**
@@ -38,14 +64,14 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($subdomain)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
         $roles = Role::get()->pluck('name', 'name');
 
-        return view('dashboard.users.create', compact('roles'));
+        return view('dashboard.users.create', compact('roles', 'subdomain'));
     }
 
     /**
@@ -56,7 +82,7 @@ class UsersController extends Controller
      */
     public function store(StoreUsersRequest $request)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
         $user = User::create($request->all());
@@ -75,9 +101,9 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id, $subdomain)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
         $roles = Role::get()->pluck('name', 'name');
@@ -96,7 +122,7 @@ class UsersController extends Controller
      */
     public function update(UpdateUsersRequest $request, $id)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
         $user = User::findOrFail($id);
@@ -119,7 +145,7 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
         $user = User::findOrFail($id);
@@ -135,7 +161,7 @@ class UsersController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
+        if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
         if ($request->input('ids')) {
