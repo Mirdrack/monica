@@ -23,7 +23,8 @@ $this->group(['domain' => '{subdomain}.'.getenv('APP_DOMAIN')], function () {
     $this->group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
 
         $this->get('home', 'HomeController@index');
-        // Route::resource('roles', 'Dashboard\RolesController');
+        $this->resource('users', 'Dashboard\UsersController');
+        // $this->resource('roles', 'Dashboard\RolesController');
     });    
 });
 
@@ -35,8 +36,8 @@ $this->group(['domain' => '{subdomain}.'.getenv('APP_DOMAIN')], function () {
 
 
 // Change Password Routes...
-$this->get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('dashboard.change_password');
 $this->patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('dashboard.change_password');
+$this->get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('change_password');
 
 
 
@@ -47,6 +48,5 @@ $this->get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm'
 Route::group([/*'middleware' => ['auth.web'],*/ 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
     // Route::resource('roles', 'Dashboard\RolesController');
     // Route::post('roles_mass_destroy', ['uses' => 'Admin\RolesController@massDestroy', 'as' => 'roles.mass_destroy']);
-    Route::resource('users', 'Dashboard\UsersController');
     Route::post('users_mass_destroy', ['uses' => 'Dashboard\UsersController@massDestroy', 'as' => 'users.mass_destroy']);
 });
