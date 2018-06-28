@@ -4,7 +4,7 @@
 @section('content')
     <h3 class="page-title">@lang('global.users.title')</h3>
     <p>
-        <a href="{{ route('dashboard.users.create') }}" class="btn btn-success">@lang('global.app_add_new')</a>
+        <a href="{{ route('dashboard.users.create', $subdomain) }}" class="btn btn-success">@lang('global.app_add_new')</a>
     </p>
 
     <div class="panel panel-default">
@@ -40,12 +40,12 @@
                                     @endforeach
                                 </td>
                                 <td>
-                                    <a href="{{ route('dashboard.users.edit',[$user->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
+                                    <a href="{{ route('dashboard.users.edit', [$subdomain, $user->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
                                     {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                        'route' => ['dashboard.users.destroy', $user->id])) !!}
+                                        'route' => ['dashboard.users.destroy', $subdomain, $user->id])) !!}
                                     {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
                                     {!! Form::close() !!}
                                 </td>
