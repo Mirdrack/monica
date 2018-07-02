@@ -54,7 +54,7 @@ class UsersController extends Controller
             $users = User::with('roles')
                         ->where('tenant_id', $tenant->id)
                         ->get();
-            return view('dashboard.users.index', compact('users', 'subdomain'));
+            return view('dashboard.users.index', compact('users', 'tenant'));
         }
         return abort(404);
     }
@@ -69,9 +69,13 @@ class UsersController extends Controller
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $roles = Role::get()->pluck('name', 'name');
 
-        return view('dashboard.users.create', compact('roles', 'subdomain'));
+        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        if ($tenant) {
+            $roles = Role::get()->pluck('name', 'name');
+            return view('dashboard.users.create', compact('roles', 'tenant'));
+        }
+        return abort(404);
     }
 
     /**
@@ -80,18 +84,21 @@ class UsersController extends Controller
      * @param  \Monica\Http\Requests\User\StoreUsersRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUsersRequest $request)
+    public function store(StoreUsersRequest $request, $subdomain)
     {
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $user = User::create($request->all());
 
-        foreach ($request->input('roles') as $role) {
-            $user->assign($role);
+        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        if ($tenant) {
+            $user = User::create($request->all());
+            foreach ($request->input('roles') as $role) {
+                $user->assign($role);
+            }
+            return redirect()->route('dashboard.users.index', $subdomain);
         }
-
-        return redirect()->route('dashboard.users.index');
+        return abort(404);
     }
 
 
@@ -101,16 +108,22 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, $subdomain)
+    public function edit($subdomain, $id)
     {
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $roles = Role::get()->pluck('name', 'name');
+        $tenant = Tenant::where('subdomain', $subdomain)->first();
 
-        $user = User::findOrFail($id);
+        if ($tenant) {
+            $roles = Role::get()->pluck('name', 'name');
 
-        return view('dashboard.users.edit', compact('user', 'roles'));
+            $user = User::findOrFail($id);
+
+            return view('dashboard.users.edit', compact('user', 'roles', 'tenant'));
+        }
+        return abort(404);
+
     }
 
     /**
@@ -120,7 +133,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUsersRequest $request, $id)
+    public function update(UpdateUsersRequest $request, $subdomain, $id)
     {
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
@@ -134,7 +147,7 @@ class UsersController extends Controller
             $user->assign($role);
         }
 
-        return redirect()->route('dashboard.users.index');
+        return redirect()->route('dashboard.users.index', $subdomain);
     }
 
     /**

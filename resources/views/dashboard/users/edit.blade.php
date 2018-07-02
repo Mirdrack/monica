@@ -3,7 +3,7 @@
 @section('content')
     <h3 class="page-title">@lang('global.users.title')</h3>
     
-    {!! Form::model($user, ['method' => 'PUT', 'route' => ['dashboard.users.update', $user->id]]) !!}
+    {!! Form::model($user, ['method' => 'PUT', 'route' => ['dashboard.users.update', $tenant->subdomain, $user->id]]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -12,6 +12,8 @@
 
         <div class="panel-body">
             <div class="row">
+                <input type="hidden" name="tenant_id" value="{{ $tenant->id }}">
+
                 <div class="col-xs-12 form-group">
                     {!! Form::label('name', 'Name*', ['class' => 'control-label']) !!}
                     {!! Form::text('name', old('name'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
