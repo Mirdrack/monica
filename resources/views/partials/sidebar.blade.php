@@ -33,7 +33,7 @@
                         </a>
                     </li>
                     <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('dashboard.users.index', $subdomain) }}">
+                        <a href="{{ route('dashboard.users.index', $tenant->subdomain) }}">
                             <i class="fa fa-user"></i>
                             <span class="title">
                                 @lang('global.users.title')
@@ -60,6 +60,6 @@
         </ul>
     </section>
 </aside>
-{{!! Form::open(['route' => ['user.logout', $subdomain], 'style' => 'display:none;', 'id' => 'logout']) !!}
+{{!! Form::open(['route' => ['user.logout', $tenant->subdomain], 'style' => 'display:none;', 'id' => 'logout']) !!}
 <button type="submit">@lang('global.logout')</button>
 {!! Form::close() !!}

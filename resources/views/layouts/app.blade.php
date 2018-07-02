@@ -49,7 +49,7 @@
     </div>
 </div>
 
-{!! Form::open(['route' => ['user.logout', $subdomain], 'style' => 'display:none;', 'id' => 'logout']) !!}
+{!! Form::open(['route' => ['user.logout', $tenant->subdomain], 'style' => 'display:none;', 'id' => 'logout']) !!}
 <button type="submit">Logout</button>
 {!! Form::close() !!}
 
