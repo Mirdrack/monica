@@ -4,6 +4,7 @@ namespace Monica\Http\Controllers;
 use Home\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Monica\Models\Tenant;
 
 class HomeController extends Controller
 {
@@ -24,6 +25,9 @@ class HomeController extends Controller
      */
     public function index($subdomain)
     {
-        return view('home', compact('subdomain'));
+        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        if ($tenant) {
+            return view('home', compact('tenant'));
+        }
     }
 }
