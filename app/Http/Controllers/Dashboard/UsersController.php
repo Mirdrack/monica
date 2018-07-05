@@ -156,7 +156,7 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($subdomain, $id)
     {
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
@@ -164,7 +164,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('dashboard.users.index');
+        return redirect()->route('dashboard.users.index', $subdomain);
     }
 
     /**
@@ -172,7 +172,7 @@ class UsersController extends Controller
      *
      * @param Request $request
      */
-    public function massDestroy(Request $request)
+    public function massDestroy($subdomain, Request $request)
     {
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
