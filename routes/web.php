@@ -23,23 +23,18 @@ $this->group(['domain' => '{subdomain}.'.getenv('APP_DOMAIN')], function () {
     $this->group(['prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
 
         $this->get('home', 'HomeController@index');
+
+        // Users routes
         $this->resource('users', 'Dashboard\UsersController');
         $this->post('users_mass_destroy', ['uses' => 'Dashboard\UsersController@massDestroy', 'as' => 'users.mass_destroy']);
         // $this->resource('roles', 'Dashboard\RolesController');
     });    
 });
 
-// Authentication Routes...
-// $this->get('login', 'Auth\LoginController@showLoginForm')->name('user.login');
-// $this->post('login', 'Auth\LoginController@login')->name('user.login');
-// $this->post('logout', 'Auth\LoginController@logout')->name('user.logout');
-
-
 
 // Change Password Routes...
 $this->patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('dashboard.change_password');
 $this->get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('change_password');
-
 
 
 // Password Reset Routes...
