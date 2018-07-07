@@ -6,7 +6,7 @@
         <ul class="sidebar-menu">
 
             <li class="{{ $request->segment(1) == 'home' ? 'active' : '' }}">
-                <a href="{{ url('/') }}">
+                <a href="{{ route('dashboard.home', $tenant->subdomain) }}">
                     <i class="fa fa-wrench"></i>
                     <span class="title">@lang('global.app_dashboard')</span>
                 </a>
@@ -45,7 +45,7 @@
             @endcan
 
             <li class="{{ $request->segment(1) == 'change_password' ? 'active' : '' }}">
-                <a href="{{ route('dashboard.change_password') }}">
+                <a href="{{ route('dashboard.change_password', $tenant->subdomain) }}">
                     <i class="fa fa-key"></i>
                     <span class="title">Change password</span>
                 </a>
