@@ -5,6 +5,7 @@ namespace Monica\Http\Controllers\Auth;
 use Monica\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Monica\Models\Tenant;
 use Hash;
 use Validator;
 
@@ -24,18 +25,21 @@ class ChangePasswordController extends Controller
      *
      * @var string $redirectTo
      */
-    protected $redirectTo = '/change_password';
+    protected $redirectTo = 'dashboard.home';
 
     /**
      * Change password form
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function showChangePasswordForm()
+    public function showChangePasswordForm($subdomain)
     {
-        $user = Auth::getUser();
+        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        if ($tenant) {
+            $user = Auth::getUser();
+            return view('auth.change_password', compact('user', 'tenant'));
+        }
 
-        return view('auth.change_password', compact('user'));
     }
 
     /**
@@ -44,16 +48,21 @@ class ChangePasswordController extends Controller
      * @param Request $request
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function changePassword(Request $request)
+    public function changePassword(Request $request, $subdomain)
     {
-        $user = Auth::getUser();
-        $this->validator($request->all())->validate();
-        if (Hash::check($request->get('current_password'), $user->password)) {
-            $user->password = $request->get('new_password');
-            $user->save();
-            return redirect($this->redirectTo)->with('success', 'Password change successfully!');
-        } else {
-            return redirect()->back()->withErrors('Current password is incorrect');
+        $tenant = Tenant::where('subdomain', $subdomain)->first();
+
+        if ($tenant) {
+            $user = Auth::getUser();
+            $this->validator($request->all())->validate();
+            if (Hash::check($request->get('current_password'), $user->password)) {
+                $user->password = $request->get('new_password');
+                $user->save();
+                return redirect()->route($this->redirectTo, $tenant->subdomain)
+                                ->with('success', 'Password change successfully!');
+            } else {
+                return redirect()->back()->withErrors('Current password is incorrect');
+            }
         }
     }
 

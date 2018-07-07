@@ -11,8 +11,8 @@
             </div>
         </div>
     @else
-        {!! Form::open(['method' => 'PATCH', 'route' => ['auth.change_password']]) !!}
         <!-- If no success message in flash session show change password form  -->
+        {!! Form::open(['method' => 'PATCH', 'route' => ['dashboard.change_password', $tenant->subdomain]]) !!}
         <div class="panel panel-default">
             <div class="panel-heading">
                 @lang('global.app_edit')
