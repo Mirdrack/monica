@@ -3,6 +3,7 @@
 namespace Monica\Exceptions;
 
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Auth\AuthenticationException;
 
@@ -52,8 +53,16 @@ class Handler extends ExceptionHandler
         return parent::render($request, $exception);
     }
 
+    /**
+     * Convert an authentication exception into a response
+     * according to the type of request
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Auth\AuthenticationException  $exception
+     * @return \Illuminate\Http\Response
+     */
     protected function unauthenticated($request, AuthenticationException $exception)
     {
+        $subdomain = null;
         if ($request->expectsJson()) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
@@ -64,8 +73,22 @@ class Handler extends ExceptionHandler
             break;
           default:
             $login = 'user.login';
+            $subdomain = $this->getSubdomain($request);
             break;
         }
-        return redirect()->guest(route($login));
+        return redirect()->guest(route($login, $subdomain));
+    }
+
+    /**
+     * Extract the request from a given $request object
+     * @param  \Illuminate\Http\Request $request
+     * @return string
+     */
+    private function getSubdomain(Request $request)
+    {
+        $urlPieces = explode('//', $request->root()); // http://subd.domain.app
+        $pieces = explode('.', $urlPieces[1]); // subdomain.domain.app
+        $domain = $pieces[0]; // subdomain
+        return $domain;
     }
 }
