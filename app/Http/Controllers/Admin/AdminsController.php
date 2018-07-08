@@ -21,7 +21,6 @@ class AdminsController extends Controller
         $this->auth = $auth;
         $this->gate = $gate;
         $this->auth->shouldUse('admin');
-        $this->middleware('auth:admin');
     }
     
     /**
