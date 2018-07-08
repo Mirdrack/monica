@@ -21,11 +21,13 @@
                     <form class="form-horizontal"
                           role="form"
                           method="POST"
-                          action="{{ url('admin/password/reset') }}">
+                          action="{{ route('auth.password.reset', $tenant->subdomain) }}">
                         <input type="hidden"
                                name="_token"
                                value="{{ csrf_token() }}">
                         <input type="hidden" name="token" value="{{ $token }}">
+
+                        <input type="hidden" name="tenant_id" value="{{ $tenant->id }}">
 
                         <div class="form-group">
                             <label class="col-md-4 control-label">Email</label>
