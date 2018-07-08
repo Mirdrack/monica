@@ -41,11 +41,21 @@ class AdminForgotPasswordController extends Controller
         return view('auth.passwords.admin_email');
     }
 
+    /**
+     * Get the guard to be used during authentication.
+     *
+     * @return \Illuminate\Contracts\Auth\StatefulGuard
+     */
     protected function guard()
     {
         return Auth::guard('admin');
     }
 
+    /**
+     * Get the broker to be used during password reset.
+     *
+     * @return \Illuminate\Contracts\Auth\PasswordBroker
+     */
     protected function broker()
     {
         return Password::broker('admins');
