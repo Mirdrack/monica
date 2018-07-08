@@ -36,7 +36,6 @@ class UsersController extends Controller
         $this->auth = $auth;
         $this->gate = $gate;
         $this->auth->guard('web');
-        $this->middleware('auth:web');
     }
     
     /**
