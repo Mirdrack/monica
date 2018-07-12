@@ -23,7 +23,20 @@ class UpdateAbilitiesRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'title' => 'required|regex:/^[ a-zA-Z0-9]+$/',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'title.required' => 'A title is required.',
+            'title.regex'  => 'The title may only contain letters, numbers, and spaces.',
         ];
     }
 }

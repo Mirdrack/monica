@@ -23,7 +23,7 @@ class StoreAdminsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name' => 'required|alpha',
             'email' => 'required|email|unique:admins,email',
             'password' => 'required',
             'roles' => 'required'
