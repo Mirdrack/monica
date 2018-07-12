@@ -43,7 +43,7 @@ class RolesController extends Controller
         if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
-        $abilities = Ability::get()->pluck('name', 'name');
+        $abilities = Ability::get()->pluck('title', 'name');
 
         return view('admin.roles.create', compact('abilities'));
     }
@@ -77,7 +77,7 @@ class RolesController extends Controller
         if (! Gate::allows('admins_manage')) {
             return abort(401);
         }
-        $abilities = Ability::get()->pluck('name', 'name');
+        $abilities = Ability::get()->pluck('title', 'name');
 
         $role = Role::findOrFail($id);
 
