@@ -28,7 +28,7 @@
                         @foreach ($abilities as $ability)
                             <tr data-entry-id="{{ $ability->id }}">
                                 <td></td>
-                                <td>{{ $ability->name }}</td>
+                                <td>{{ $ability->title }}</td>
                                 <td>
                                     <a href="{{ route('admin.abilities.edit',[$ability->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
                                     {!! Form::open(array(

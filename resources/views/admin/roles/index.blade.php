@@ -28,9 +28,9 @@
                         @foreach ($roles as $role)
                             <tr data-entry-id="{{ $role->id }}">
                                 <td></td>
-                                <td>{{ $role->name }}</td>
+                                <td>{{ $role->title }}</td>
                                 <td>
-                                    @foreach ($role->abilities()->pluck('name') as $ability)
+                                    @foreach ($role->abilities()->pluck('title') as $ability)
                                         <span class="label label-info label-many">{{ $ability }}</span>
                                     @endforeach
                                 </td>
