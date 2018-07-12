@@ -16,6 +16,6 @@ class AdminSeed extends Seeder
             'email' => 'admin@admin.com',
             'password' => 'secret'
         ]);
-        $admin->assign('administrator');
+        $admin->assign('admin');
     }
 }

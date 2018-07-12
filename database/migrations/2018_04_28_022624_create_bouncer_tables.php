@@ -31,6 +31,7 @@ class CreateBouncerTables extends Migration
             $table->string('title')->nullable();
             $table->integer('level')->unsigned()->nullable();
             $table->integer('scope')->nullable()->index();
+            $table->string('type', 10)->default('system');
             $table->timestamps();
 
             $table->unique(
@@ -53,6 +54,7 @@ class CreateBouncerTables extends Migration
             $table->foreign('role_id')
                   ->references('id')->on(Models::table('roles'))
                   ->onUpdate('cascade')->onDelete('cascade');
+
         });
 
         Schema::create(Models::table('permissions'), function (Blueprint $table) {

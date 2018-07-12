@@ -10,7 +10,19 @@ class RoleSeed extends Seeder
      */
     public function run()
     {
-        Bouncer::allow('administrator')->to('admins_manage');
-        Bouncer::allow('tenant_admin')->to('users_manage');
+        $admin = Bouncer::role()->firstOrCreate([
+            'name' => 'admin',
+            'title' => 'System Admin',
+            'type' => 'system',
+        ]);
+
+        $tenantAdmin = Bouncer::role()->firstOrCreate([
+            'name' => 'tenant_admin',
+            'title' => 'Tenant Admin',
+            'type' => 'tenant',
+        ]);
+
+        Bouncer::allow($admin)->to('admins_manage');
+        Bouncer::allow($tenantAdmin)->to('users_manage');
     }
 }
