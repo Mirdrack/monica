@@ -22,7 +22,7 @@
                     <form class="form-horizontal"
                           role="form"
                           method="POST"
-                          action="{{ url('login') }}">
+                          action="{{ secure_url('login') }}">
                         <input type="hidden"
                                name="_token"
                                value="{{ csrf_token() }}">

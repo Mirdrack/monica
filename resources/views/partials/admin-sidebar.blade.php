@@ -6,7 +6,7 @@
         <ul class="sidebar-menu">
 
             <li class="{{ $request->segment(1) == 'home' ? 'active' : '' }}">
-                <a href="{{ url('/admin') }}">
+                <a href="{{ secure_url('/admin') }}">
                     <i class="fa fa-wrench"></i>
                     <span class="title">@lang('global.app_dashboard')</span>
                 </a>

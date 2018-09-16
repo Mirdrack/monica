@@ -15,8 +15,8 @@
 <script src="{{ secure_asset('js/main.js') }}"></script>
 
 <!-- 
-<script src="{{ url('adminlte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ url('adminlte/plugins/fastclick/fastclick.js') }}"></script> 
+<script src="{{ secure_asset('adminlte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
+<script src="{{ secure_asset('adminlte/plugins/fastclick/fastclick.js') }}"></script>
 -->
 <script src="{{ secure_asset('js/adminlte/app.min.js') }}"></script>
 <script>
