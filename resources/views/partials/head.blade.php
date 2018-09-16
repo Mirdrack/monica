@@ -23,10 +23,10 @@
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<link href="{{ url('css/app.css') }}" rel="stylesheet">
+<link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
 <link rel="stylesheet" href="{{ url('css/select2.min.css') }}"/>
-<link href="{{ url('css/adminlte/AdminLTE.min.css') }}" rel="stylesheet">
-<link href="{{ url('css/adminlte/skins/skin-blue.min.css') }}" rel="stylesheet">
+<link href="{{ secure_asset('css/adminlte/AdminLTE.min.css') }}" rel="stylesheet">
+<link href="{{ secure_asset('css/adminlte/skins/skin-blue.min.css') }}" rel="stylesheet">
 <link rel="stylesheet"
       href="https://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
 <link rel="stylesheet"
