@@ -24,7 +24,7 @@
 <![endif]-->
 
 <link href="{{ secure_asset('css/app.css') }}" rel="stylesheet">
-<link rel="stylesheet" href="{{ url('css/select2.min.css') }}"/>
+<link href="{{ secure_asset('css/select2.min.css') }}" rel="stylesheet"/>
 <link href="{{ secure_asset('css/adminlte/AdminLTE.min.css') }}" rel="stylesheet">
 <link href="{{ secure_asset('css/adminlte/skins/skin-blue.min.css') }}" rel="stylesheet">
 <link rel="stylesheet"
