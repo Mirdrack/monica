@@ -24,6 +24,18 @@
             </div>
             <div class="row">
                 <div class="col-xs-12 form-group">
+                    {!! Form::label('subdomain', 'Subdomain*', ['class' => 'control-label']) !!}
+                    {!! Form::text('subdomain', old('subdomain'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('subdomain'))
+                        <p class="help-block">
+                            {{ $errors->first('subdomain') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 form-group">
                     {!! Form::label('email', 'Owner Email*', ['class' => 'control-label']) !!}
                     {!! Form::email('email', old('email'), ['class' => 'form-control', 'placeholder' => '', 'required' => '']) !!}
                     <p class="help-block"></p>
