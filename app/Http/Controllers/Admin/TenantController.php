@@ -3,18 +3,45 @@
 namespace Monica\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Auth\AuthManager;
+use Illuminate\Contracts\Auth\Access\Gate;
 use Monica\Models\Tenant;
 use Monica\Http\Controllers\Controller;
 use Monica\Http\Requests\Tenant\StoreTenantsRequest;
 use Monica\Http\Requests\Tenant\UpdateTenantsRequest;
 
+use Monica\Service\Admin\TenantService;
+
 class TenantController extends Controller
 {
-    public function __construct()
+    /**
+     * Handler of auth functions
+     * @var \Illuminate\Auth\AuthManager
+     */
+    protected $authManager;
+
+    /**
+     * Framework permission handler
+     * @var \Illuminate\Contracts\Auth\Access\Gate
+     */
+    protected $gate;
+
+    /**
+     * Tenant service
+     * @var \Monica\Service\Admin\TenantService
+     */
+    protected $tenantService;
+
+    public function __construct(
+        AuthManager $authManager,
+        Gate $gate,
+        TenantService $tenantService
+    )
     {
-        Auth::shouldUse('admin');
+        $this->authManager = $authManager;
+        $this->gate = $gate;
+        $this->tenantService = $tenantService;
+        $this->authManager->shouldUse('admin');
     }
 
     /**
@@ -24,7 +51,7 @@ class TenantController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         $tenants = Tenant::all();
@@ -38,7 +65,7 @@ class TenantController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         return view('admin.tenants.create');
@@ -50,13 +77,12 @@ class TenantController extends Controller
      * @param  \Monica\Http\Requests\Tenant\StoreTenantsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreTenantsRequest $request)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $user = Tenant::create($request->all());
-
+        $this->tenantService->registerTenant($request->all());
         return redirect()->route('admin.tenants.index');
     }
 
@@ -79,7 +105,7 @@ class TenantController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         $tenant = Tenant::findOrFail($id);
@@ -95,7 +121,7 @@ class TenantController extends Controller
      */
     public function update(UpdateTenantsRequest $request, $id)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         $tenant = Tenant::findOrFail($id);
@@ -112,7 +138,7 @@ class TenantController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         $tenant = Tenant::findOrFail($id);
