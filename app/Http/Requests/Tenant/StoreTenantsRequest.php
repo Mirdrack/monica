@@ -24,6 +24,8 @@ class StoreTenantsRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'subdomain' => 'required|regex:/^[a-zA-Z0-9-]+$/',
+            'email' => 'required|email|unique:users,email',
         ];
     }
 }
