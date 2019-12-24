@@ -37,7 +37,7 @@ class UsersController extends Controller
         $this->gate = $gate;
         $this->auth->guard('web');
     }
-    
+
     /**
      * Display a listing of User.
      *
@@ -71,7 +71,7 @@ class UsersController extends Controller
 
         $tenant = Tenant::where('subdomain', $subdomain)->first();
         if ($tenant) {
-            $roles = Role::get()->pluck('name', 'name');
+            $roles = Role::get()->pluck('title', 'name');
             return view('dashboard.users.create', compact('roles', 'tenant'));
         }
         return abort(404);
@@ -100,7 +100,6 @@ class UsersController extends Controller
         return abort(404);
     }
 
-
     /**
      * Show the form for editing User.
      *
@@ -115,7 +114,7 @@ class UsersController extends Controller
         $tenant = Tenant::where('subdomain', $subdomain)->first();
 
         if ($tenant) {
-            $roles = Role::get()->pluck('name', 'name');
+            $roles = Role::get()->pluck('title', 'name');
 
             $user = User::findOrFail($id);
 
