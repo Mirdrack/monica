@@ -9,6 +9,9 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
+      - echo Generating application key
+      - cp .env.example .env
+      - php artisan key:generate
       - echo Reviewing code standards
       - ./vendor/bin/phpcs
       - echo Reviewing unit tests
