@@ -78,7 +78,7 @@ class AuthController extends Controller
                 $oldToken = $this->jwt->getToken();
                 $refreshed = $this->jwt->refresh($oldToken);
                 return response()->json(['access_token' => $refreshed]);
-        } 
+        }
     }
 
     /**
@@ -97,7 +97,8 @@ class AuthController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
         $data = $request->all();
         \Log::info(print_r($data, true));
         return json_encode(['message' => $data]);

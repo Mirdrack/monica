@@ -68,13 +68,13 @@ class Handler extends ExceptionHandler
         }
         $guard = array_get($exception->guards(), 0);
         switch ($guard) {
-          case 'admin':
-            $login = 'admin.login';
-            break;
-          default:
-            $login = 'user.login';
-            $subdomain = $this->getSubdomain($request);
-            break;
+            case 'admin':
+                $login = 'admin.login';
+                break;
+            default:
+                $login = 'user.login';
+                $subdomain = $this->getSubdomain($request);
+                break;
         }
         return redirect()->guest(route($login, $subdomain));
     }

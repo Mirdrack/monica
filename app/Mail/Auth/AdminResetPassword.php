@@ -51,9 +51,10 @@ class AdminResetPassword extends Notification
      */
     public function toMail($notifiable)
     {
+        $data = [$this->email, $this->token];
         return (new MailMessage)
             ->line('You are receiving this email because we received a password reset request for your account.')
-            ->action('Reset Password', url(config('app.url').route('admin.password.restore', [$this->email, $this->token], false)))
+            ->action('Reset Password', url(config('app.url').route('admin.password.restore', $data, false)))
             ->line('If you did not request a password reset, no further action is required.');
     }
 }

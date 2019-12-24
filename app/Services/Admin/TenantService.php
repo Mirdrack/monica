@@ -16,13 +16,12 @@ class TenantService
     protected $tenant;
 
     protected $user;
-    
-    function __construct(
-        DatabaseManager $dbManager, 
-        Tenant $tenant, 
+
+    public function __construct(
+        DatabaseManager $dbManager,
+        Tenant $tenant,
         User $user
-    )
-    {
+    ) {
         $this->dbManager = $dbManager;
         $this->tenant = $tenant;
         $this->user = $user;
@@ -52,7 +51,7 @@ class TenantService
      * @param  array  $data Values from the request
      * @return array  Formated data to create the admin
      */
-    private function extractTenantAdminData(array $data, Tenant $tenant) : array 
+    private function extractTenantAdminData(array $data, Tenant $tenant) : array
     {
         return [
             'name' => '',
