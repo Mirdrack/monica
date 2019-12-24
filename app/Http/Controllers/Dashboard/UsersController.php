@@ -121,7 +121,6 @@ class UsersController extends Controller
             return view('dashboard.users.edit', compact('user', 'roles', 'tenant'));
         }
         return abort(404);
-
     }
 
     /**

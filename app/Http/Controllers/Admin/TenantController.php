@@ -36,8 +36,7 @@ class TenantController extends Controller
         AuthManager $authManager,
         Gate $gate,
         TenantService $tenantService
-    )
-    {
+    ) {
         $this->authManager = $authManager;
         $this->gate = $gate;
         $this->tenantService = $tenantService;
