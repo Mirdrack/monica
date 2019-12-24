@@ -11,7 +11,9 @@
 |
 */
 
-$this->get('/', function () { return view('welcome'); })->name('site-route');
+$this->get('/', function () {
+    return view('welcome');
+})->name('site-route');
 
 $this->group(['domain' => '{subdomain}.'.getenv('APP_DOMAIN')], function () {
 

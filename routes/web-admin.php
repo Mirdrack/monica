@@ -1,7 +1,9 @@
 <?php
 $this->group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
-    $this->get('/', function () { return redirect('/admin/home'); });
+    $this->get('/', function () {
+        return redirect('/admin/home');
+    });
 
     // Admin Authentication Routes
     $this->get('login', 'Auth\AdminLoginController@showLoginForm')->name('login');
@@ -31,7 +33,8 @@ $this->group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         $this->post('abilities_mass_destroy', 'Admin\AbilitiesController@massDestroy')->name('abilities.mass_destroy');
 
         // Admin Change Password Routes
-        $this->get('change_password', 'Auth\AdminChangePasswordController@showChangePasswordForm')->name('change_password');
+        $this->get('change_password', 'Auth\AdminChangePasswordController@showChangePasswordForm')
+            ->name('change_password');
         $this->patch('change_password', 'Auth\AdminChangePasswordController@changePassword')->name('change_password');
     });
 
