@@ -25,7 +25,7 @@
 
                     </tr>
                 </thead>
-                
+
                 <tbody>
                     @if (count($users) > 0)
                         @foreach ($users as $user)
@@ -35,7 +35,7 @@
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
                                 <td>
-                                    @foreach ($user->roles->pluck('name') as $role)
+                                    @foreach ($user->roles->pluck('title') as $role)
                                         <span class="label label-info label-many">{{ $role }}</span>
                                     @endforeach
                                 </td>
@@ -63,7 +63,7 @@
     </div>
 @stop
 
-@section('javascript') 
+@section('javascript')
     <script>
         window.route_mass_crud_entries_destroy = '{{ route('dashboard.users.mass_destroy', $tenant->subdomain) }}';
     </script>

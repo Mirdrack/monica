@@ -28,7 +28,7 @@
                     <form class="form-horizontal"
                           role="form"
                           method="POST"
-                          action="{{ secure_url('admin/password/email') }}">
+                          action="{{ url('admin/password/email', env('SSL')) }}">
                         <input type="hidden"
                                name="_token"
                                value="{{ csrf_token() }}">
