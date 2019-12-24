@@ -1,0 +1,15 @@
+version: 0.2
+phases:
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Installing composer dependencies
+      - composer install
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Reviewing code standards
+      - ./vendor/bin/phpcs
+      - echo Reviewing unit tests
+      - ./vendor/bin/phpunit
