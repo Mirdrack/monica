@@ -1,6 +1,6 @@
 <header class="main-header">
     <!-- Logo -->
-    <a href="{{ secure_url('/admin/home') }}" class="logo"
+    <a href="{{ url('/admin/home', env('SSL')) }}" class="logo"
        style="font-size: 16px;">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini">

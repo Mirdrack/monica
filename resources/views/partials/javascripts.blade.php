@@ -10,15 +10,15 @@
 <script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.colVis.min.js"></script>
 <script src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>
 <script src="https://code.jquery.com/ui/1.11.3/jquery-ui.min.js"></script>
-<script src="{{ secure_asset('js/bootstrap.min.js') }}"></script>
-<script src="{{ secure_asset('js/select2.full.min.js') }}"></script>
-<script src="{{ secure_asset('js/main.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js', env('SSL')) }}"></script>
+<script src="{{ asset('js/select2.full.min.js', env('SSL')) }}"></script>
+<script src="{{ asset('js/main.js', env('SSL')) }}"></script>
 
-<!-- 
-<script src="{{ secure_asset('adminlte/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
-<script src="{{ secure_asset('adminlte/plugins/fastclick/fastclick.js') }}"></script>
+<!--
+<script src="{{ asset('adminlte/plugins/slimScroll/jquery.slimscroll.min.js', env('SSL')) }}"></script>
+<script src="{{ asset('adminlte/plugins/fastclick/fastclick.js', env('SSL')) }}"></script>
 -->
-<script src="{{ secure_asset('js/adminlte/app.min.js') }}"></script>
+<script src="{{ asset('js/adminlte/app.min.js', env('SSL')) }}"></script>
 <script>
     window._token = '{{ csrf_token() }}';
 </script>

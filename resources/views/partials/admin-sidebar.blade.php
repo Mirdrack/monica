@@ -6,12 +6,12 @@
         <ul class="sidebar-menu">
 
             <li class="{{ $request->segment(1) == 'home' ? 'active' : '' }}">
-                <a href="{{ secure_url('/admin') }}">
+                <a href="{{ url('/admin', env('SSL')) }}">
                     <i class="fa fa-wrench"></i>
                     <span class="title">@lang('global.app_dashboard')</span>
                 </a>
             </li>
-            
+
             @can('admins_manage')
             <li class="treeview">
                 <a href="#">

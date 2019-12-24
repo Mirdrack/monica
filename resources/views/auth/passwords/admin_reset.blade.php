@@ -21,7 +21,7 @@
                     <form class="form-horizontal"
                           role="form"
                           method="POST"
-                          action="{{ secure_url('admin/password/reset') }}">
+                          action="{{ url('admin/password/reset', env('SSL')) }}">
                         <input type="hidden"
                                name="_token"
                                value="{{ csrf_token() }}">

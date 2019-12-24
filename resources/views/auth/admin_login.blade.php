@@ -6,7 +6,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Admin Login</div>
                 <div class="panel-body">
-                    
+
                     @if (count($errors) > 0)
                         <div class="alert alert-danger">
                             <strong>Whoops!</strong> There were problems with input:
@@ -22,7 +22,7 @@
                     <form class="form-horizontal"
                           role="form"
                           method="POST"
-                          action="{{ secure_url('admin/login') }}">
+                          action="{{ url('admin/login', env('SSL')) }}">
                         <input type="hidden"
                                name="_token"
                                value="{{ csrf_token() }}">
