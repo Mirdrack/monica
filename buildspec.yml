@@ -2,13 +2,13 @@ version: 0.2
 phases:
   build:
     commands:
-      - echo Build started on `date`
+      - echo "Build started on $(date)"
       - echo Installing composer dependencies
-      - composer install
+      - composer install --quiet
 
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo "Build completed on $(date)"
       - echo Generating application key
       - cp .env.example .env
       - php artisan key:generate
