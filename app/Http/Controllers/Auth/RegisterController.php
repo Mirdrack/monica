@@ -2,7 +2,7 @@
 
 namespace Monica\Http\Controllers\Auth;
 
-use Monica\User;
+use Monica\Models\User;
 use Monica\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -58,7 +58,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \Monica\User
+     * @return \Monica\Models\User
      */
     protected function create(array $data)
     {

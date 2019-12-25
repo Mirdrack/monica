@@ -5,6 +5,7 @@ namespace Monica\Service\Admin;
 use Monica\Models\Tenant;
 use Monica\Models\User;
 use Illuminate\Database\DatabaseManager;
+use Exception;
 
 /**
 * This class handle all the complex actions
