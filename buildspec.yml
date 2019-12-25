@@ -3,16 +3,16 @@ phases:
   build:
     commands:
       - echo "Build started on $(date)"
-      - echo Installing composer dependencies
+      - echo "Installing composer dependencies"
       - composer install --quiet
 
   post_build:
     commands:
       - echo "Build completed on $(date)"
-      - echo Generating application key
+      - echo "Generating application key"
       - cp .env.example .env
       - php artisan key:generate
-      - echo Reviewing code standards
+      - echo "Reviewing code standards"
       - ./vendor/bin/phpcs
-      - echo Reviewing unit tests
+      - echo "Reviewing unit tests"
       - ./vendor/bin/phpunit
