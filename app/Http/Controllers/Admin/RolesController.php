@@ -51,7 +51,7 @@ class RolesController extends Controller
     /**
      * Store a newly created Role in storage.
      *
-     * @param  \Monica\Http\Requests\StoreRolesRequest  $request
+     * @param  \Monica\Http\Requests\Admin\StoreRolesRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRolesRequest $request)
@@ -87,7 +87,7 @@ class RolesController extends Controller
     /**
      * Update Role in storage.
      *
-     * @param  \Monica\Http\Requests\UpdateRolesRequest  $request
+     * @param  \Monica\Http\Requests\Admin\UpdateRolesRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

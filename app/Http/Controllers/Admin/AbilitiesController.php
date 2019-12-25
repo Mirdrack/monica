@@ -49,7 +49,7 @@ class AbilitiesController extends Controller
     /**
      * Store a newly created Ability in storage.
      *
-     * @param  \App\Http\Requests\StoreAbilitiesRequest  $request
+     * @param  \Monica\Http\Requests\Admin\StoreAbilitiesRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreAbilitiesRequest $request)
@@ -82,7 +82,7 @@ class AbilitiesController extends Controller
     /**
      * Update Ability in storage.
      *
-     * @param  \App\Http\Requests\UpdateAbilitiesRequest  $request
+     * @param  \Monica\Http\Requests\Admin\UpdateAbilitiesRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
