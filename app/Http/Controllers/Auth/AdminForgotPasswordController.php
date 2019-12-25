@@ -5,6 +5,7 @@ namespace Monica\Http\Controllers\Auth;
 use Monica\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Facades\Auth;
 
 class AdminForgotPasswordController extends Controller
 {

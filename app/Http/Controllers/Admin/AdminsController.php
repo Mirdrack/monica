@@ -56,7 +56,7 @@ class AdminsController extends Controller
     /**
      * Store a newly created Admin in storage.
      *
-     * @param  \Monica\Http\Requests\StoreAdminsRequest  $request
+     * @param  \Monica\Http\Requests\Admin\StoreAdminsRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreAdminsRequest $request)
@@ -95,7 +95,7 @@ class AdminsController extends Controller
     /**
      * Update Admin in storage.
      *
-     * @param  \Monica\Http\Requests\UpdateAdminsRequest  $request
+     * @param  \Monica\Http\Requests\Admin\UpdateAdminsRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
