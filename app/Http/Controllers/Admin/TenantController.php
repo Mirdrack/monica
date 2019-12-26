@@ -10,7 +10,7 @@ use Monica\Http\Controllers\Controller;
 use Monica\Http\Requests\Tenant\StoreTenantsRequest;
 use Monica\Http\Requests\Tenant\UpdateTenantsRequest;
 
-use Monica\Service\Admin\TenantService;
+use Monica\Services\Admin\TenantService;
 
 class TenantController extends Controller
 {
@@ -28,7 +28,7 @@ class TenantController extends Controller
 
     /**
      * Tenant service
-     * @var \Monica\Service\Admin\TenantService
+     * @var \Monica\Services\Admin\TenantService
      */
     protected $tenantService;
 

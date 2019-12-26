@@ -1,6 +1,6 @@
 <?php
 
-namespace Monica\Service\Admin;
+namespace Monica\Services\Admin;
 
 use Monica\Models\Tenant;
 use Monica\Models\User;
