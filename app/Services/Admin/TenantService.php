@@ -1,6 +1,6 @@
 <?php
 
-namespace Monica\Service\Admin;
+namespace Monica\Services\Admin;
 
 use Monica\Models\Tenant;
 use Monica\Models\User;
@@ -30,8 +30,10 @@ class TenantService
 
     /**
      * Register tenant and creates the tenant owner
+     * @param  array  $data tenant information
+     * @return bool
      */
-    public function registerTenant(array $data)
+    public function registerTenant(array $data) : bool
     {
         try {
             $this->dbManager->beginTransaction();
@@ -40,8 +42,11 @@ class TenantService
             $tenantAdmin = $this->user->create($tenantAdminData);
             $tenantAdmin->assign('tenant_admin');
             $this->dbManager->commit();
+            return true;
         } catch (Exception $e) {
+            // TO DO: Add log
             $this->dbManager->rollback();
+            // TO DO: Add custom exception
             throw new Exception('Error registering a new Tenant', 1);
         }
     }
