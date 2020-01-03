@@ -5,6 +5,8 @@ use Monica\Models\Tenant;
 
 class HomeController extends Controller
 {
+    protected $tenant;
+
     /**
      * @param \Monica\Models\Tenant $tenant
      */
