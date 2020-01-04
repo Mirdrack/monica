@@ -12,7 +12,7 @@ use Monica\Http\Requests\User\StoreUsersRequest;
 use Monica\Http\Requests\User\UpdateUsersRequest;
 use Silber\Bouncer\Database\Role;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Handle authentication functions
@@ -27,14 +27,34 @@ class UsersController extends Controller
     protected $gate;
 
     /**
+     * @var Monica\Models\Tenant
+     */
+    protected $tenant;
+
+    /**
+     * @var Monica\Models\User
+     */
+    protected $user;
+
+    /**
      * Sets auth manager and permission gate and the middlewares
      * @param Auth $auth
      * @param Gate $gate
      */
-    public function __construct(Auth $auth, Gate $gate)
+
+    /**
+     * Sets auth manager and permission gate and the middlewares
+     * @param Auth $auth
+     * @param Gate $gate
+     * @param Tenant $tenant
+     * @param User   $user
+     */
+    public function __construct(Auth $auth, Gate $gate, Tenant $tenant, User $user)
     {
         $this->auth = $auth;
         $this->gate = $gate;
+        $this->tenant = $tenant;
+        $this->user = $user;
         $this->auth->guard('web');
     }
 
@@ -43,14 +63,21 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    /**
+     * Display a listing of User.
+     * @param  string $subdomain tenant subdomain
+     * @return \Illuminate\Http\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     */
     public function index($subdomain)
     {
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        $tenant = $this->tenant->where('subdomain', $subdomain)->first();
         if ($tenant) {
-            $users = User::with('roles')
+            $users = $this->user->with('roles')
                         ->where('tenant_id', $tenant->id)
                         ->get();
             return view('dashboard.users.index', compact('users', 'tenant'));

@@ -40,7 +40,7 @@ function helptext() {
 }
 
 function lint() {
-  docker run --rm --interactive --tty \
+  docker run --rm --interactive \
   --volume $PWD:/usr/src/app \
   --workdir /usr/src/app \
   mirdrack/docker-laravel:latest ./vendor/bin/phpcs
@@ -58,14 +58,14 @@ function test() {
     REPORT=""
   fi
 
-  docker run --rm --interactive --tty \
+  docker run --rm --interactive \
   --volume $PWD:/usr/src/app \
   --workdir /usr/src/app \
   mirdrack/docker-laravel:latest ./vendor/bin/phpunit $REPORT
 }
 
 function code_analyse() {
-  docker run --rm --interactive --tty \
+  docker run --rm --interactive \
   --volume $PWD:/usr/src/app \
   --workdir /usr/src/app \
   mirdrack/docker-laravel:latest php artisan code:analyse --level=1
