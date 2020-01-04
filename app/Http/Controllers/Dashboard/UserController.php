@@ -40,12 +40,6 @@ class UserController extends Controller
      * Sets auth manager and permission gate and the middlewares
      * @param Auth $auth
      * @param Gate $gate
-     */
-
-    /**
-     * Sets auth manager and permission gate and the middlewares
-     * @param Auth $auth
-     * @param Gate $gate
      * @param Tenant $tenant
      * @param User   $user
      */
@@ -57,12 +51,6 @@ class UserController extends Controller
         $this->user = $user;
         $this->auth->guard('web');
     }
-
-    /**
-     * Display a listing of User.
-     *
-     * @return \Illuminate\Http\Response
-     */
 
     /**
      * Display a listing of User.
