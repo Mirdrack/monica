@@ -12,14 +12,33 @@ use Silber\Bouncer\Database\Role;
 
 class AdminController extends Controller
 {
+    /**
+     * Handle authentication functions
+     * @var \Illuminate\Auth\AuthManager
+     */
     protected $auth;
 
+    /**
+     * Checks the user permissions
+     * @var \Illuminate\Contracts\Auth\Access\Gate
+     */
     protected $gate;
 
-    public function __construct(Auth $auth, Gate $gate)
+    /**
+     * @var Monica\Models\Tenant
+     */
+    protected $admin;
+
+    /**
+     * @param Auth  $auth
+     * @param Gate  $gate
+     * @param Admin $admin
+     */
+    public function __construct(Auth $auth, Gate $gate, Admin $admin)
     {
         $this->auth = $auth;
         $this->gate = $gate;
+        $this->admin = $admin;
         $this->auth->shouldUse('admin');
     }
 
@@ -34,7 +53,7 @@ class AdminController extends Controller
             return abort(401);
         }
 
-        $admins = Admin::with('roles')->get();
+        $admins = $this->admin->with('roles')->get();
         return view('admin.admins.index', compact('admins'));
     }
 
