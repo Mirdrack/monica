@@ -154,12 +154,15 @@ class RoleController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
+        $deleteRoles = 0;
         if ($request->input('ids')) {
             $entries = $this->role->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
             }
+            $deleteRoles = $entries->count();
         }
+        return $deleteRoles;
     }
 }
