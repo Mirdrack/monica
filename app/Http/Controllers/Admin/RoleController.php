@@ -1,20 +1,40 @@
 <?php
 namespace Monica\Http\Controllers\Admin;
 
-use Silber\Bouncer\Database\Ability;
-use Silber\Bouncer\Database\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Auth\AuthManager as Auth;
 use Monica\Http\Controllers\Controller;
 use Monica\Http\Requests\Admin\StoreRolesRequest;
 use Monica\Http\Requests\Admin\UpdateRolesRequest;
-use Illuminate\Support\Facades\Auth;
+use Silber\Bouncer\Database\Ability;
+use Silber\Bouncer\Database\Role;
 
 class RoleController extends Controller
 {
-    public function __construct()
+    /**
+     * Handle authentication functions
+     * @var \Illuminate\Auth\AuthManager
+     */
+    protected $auth;
+
+    /**
+     * Checks the user permissions
+     * @var \Illuminate\Contracts\Auth\Access\Gate
+     */
+    protected $gate;
+
+    /**
+     * @var Silber\Bouncer\Database\Role
+     */
+    protected $role;
+
+    public function __construct(Auth $auth, Gate $gate, Role $role)
     {
-        Auth::shouldUse('admin');
+        $this->auth = $auth;
+        $this->gate = $gate;
+        $this->role = $role;
+        $this->auth->shouldUse('admin');
     }
 
     /**
@@ -24,11 +44,11 @@ class RoleController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
 
-        $roles = Role::all();
+        $roles = $this->role->all();
 
         return view('admin.roles.index', compact('roles'));
     }
@@ -40,7 +60,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         $abilities = Ability::get()->pluck('title', 'name');
@@ -56,7 +76,7 @@ class RoleController extends Controller
      */
     public function store(StoreRolesRequest $request)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         $role = Role::create($request->all());
@@ -74,7 +94,7 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         $abilities = Ability::get()->pluck('title', 'name');
@@ -93,7 +113,7 @@ class RoleController extends Controller
      */
     public function update(UpdateRolesRequest $request, $id)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         $role = Role::findOrFail($id);
@@ -115,7 +135,7 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         $role = Role::findOrFail($id);
@@ -131,11 +151,11 @@ class RoleController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         if ($request->input('ids')) {
-            $entries = Role::whereIn('id', $request->input('ids'))->get();
+            $entries = $this->role->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
