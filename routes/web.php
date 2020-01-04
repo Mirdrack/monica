@@ -52,6 +52,6 @@ $this->group(['domain' => '{subdomain}.'.getenv('APP_DOMAIN')], function () {
 
 
 Route::group([/*'middleware' => ['auth.web'],*/ 'prefix' => 'dashboard', 'as' => 'dashboard.'], function () {
-    // $this->resource('roles', 'Dashboard\RolesController');
-    // $this->post('roles_mass_destroy', ['uses' => 'Admin\RolesController@massDestroy', 'as' => 'roles.mass_destroy']);
+    // $this->resource('roles', 'Dashboard\RoleController');
+    // $this->post('roles_mass_destroy', ['uses' => 'Admin\RoleController@massDestroy', 'as' => 'roles.mass_destroy']);
 });
