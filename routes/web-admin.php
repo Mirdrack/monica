@@ -21,8 +21,8 @@ $this->group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         $this->resource('tenants', 'Admin\TenantController');
 
         // Admins Routes
-        $this->resource('admins', 'Admin\AdminsController');
-        $this->post('admins_mass_destroy', 'Admin\AdminsController@massDestroy')->name('admins.mass_destroy');
+        $this->resource('admins', 'Admin\AdminController');
+        $this->post('admins_mass_destroy', 'Admin\AdminController@massDestroy')->name('admins.mass_destroy');
 
         // Roles Routes
         $this->resource('roles', 'Admin\RolesController');
