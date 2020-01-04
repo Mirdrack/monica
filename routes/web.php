@@ -32,8 +32,8 @@ $this->group(['domain' => '{subdomain}.'.getenv('APP_DOMAIN')], function () {
         $this->get('home', 'HomeController@index')->name('home');
 
         // Users routes
-        $this->resource('users', 'Dashboard\UsersController');
-        $this->post('users_mass_destroy', 'Dashboard\UsersController@massDestroy')->name('users.mass_destroy');
+        $this->resource('users', 'Dashboard\UserController');
+        $this->post('users_mass_destroy', 'Dashboard\UserController@massDestroy')->name('users.mass_destroy');
 
         // Change Password Routes
         $this->get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('change_password');
