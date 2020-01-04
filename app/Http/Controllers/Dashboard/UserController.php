@@ -26,14 +26,28 @@ class UserController extends Controller
      */
     protected $gate;
 
+    /**
+     * @var Monica\Models\Tenant
+     */
     protected $tenant;
 
+    /**
+     * @var Monica\Models\User
+     */
     protected $user;
 
     /**
      * Sets auth manager and permission gate and the middlewares
      * @param Auth $auth
      * @param Gate $gate
+     */
+
+    /**
+     * Sets auth manager and permission gate and the middlewares
+     * @param Auth $auth
+     * @param Gate $gate
+     * @param Tenant $tenant
+     * @param User   $user
      */
     public function __construct(Auth $auth, Gate $gate, Tenant $tenant, User $user)
     {
@@ -48,6 +62,13 @@ class UserController extends Controller
      * Display a listing of User.
      *
      * @return \Illuminate\Http\Response
+     */
+
+    /**
+     * Display a listing of User.
+     * @param  string $subdomain tenant subdomain
+     * @return \Illuminate\Http\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function index($subdomain)
     {
