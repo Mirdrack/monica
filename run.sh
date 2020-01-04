@@ -13,16 +13,30 @@ function error() {
 }
 
 function helptext() {
-  echo "This is a tools that helps to run the different scripts in the project."
-  echo "Usage: ./tools.sh <option> "
-  echo ""
-  echo "Options are:"
-  echo "    lint   |     Run Linter"
-  echo "    test   |     Run tests"
-  echo "    ca     |     Run code analyser"
-  echo "    all    |     Run all the options"
-  echo "    help   |     Show this text"
-  exit 1
+  if [[ -z $2 ]]; then
+    echo "This is a tools that helps to run the different scripts in the project."
+    echo "Usage: ./tools.sh <option> "
+    echo ""
+    echo "Options are:"
+    echo "    lint            |     Run Linter"
+    echo "    test [option]   |     Run tests"
+    echo "    ca              |     Run code analyser"
+    echo "    all             |     Run all the options"
+    echo "    help [command]  |     Show help about the command"
+  fi
+
+  case $2 in
+    test )
+      echo "Usage: ./tools.sh help [option]"
+      echo ""
+      echo "Options for \"$1\" command are:"
+      echo "    --report  |     Generates phpunit report"
+      ;;
+    *)
+      error "Invalid command: $2"
+      exit 1
+    ;;
+  esac
 }
 
 function lint() {
@@ -33,10 +47,21 @@ function lint() {
 }
 
 function test() {
+  # Validating report option
+  if [[ -n $1 ]]; then
+    if [[ "$1" != "--report" ]]; then
+      error "Invalid option: $1" 1>&2
+      exit 1
+    fi
+    REPORT="--coverage-html reports/phpunit"
+  else
+    REPORT=""
+  fi
+
   docker run --rm --interactive --tty \
   --volume $PWD:/usr/src/app \
   --workdir /usr/src/app \
-  mirdrack/docker-laravel:latest ./vendor/bin/phpunit
+  mirdrack/docker-laravel:latest ./vendor/bin/phpunit $REPORT
 }
 
 function code_analyse() {
@@ -60,25 +85,26 @@ function set_parameters_and_exec() {
   }
 
   case "$1" in
-  lint)
+  lint )
     lint
     ;;
-  test)
-    test
+  test )
+    REPORT=$2
+    test $REPORT
     ;;
-  ca)
+  ca )
     code_analyse
     ;;
-  fix)
+  fix )
     format_fix
     ;;
-  all)
+  all )
     lint
     test
     code_analyse
     ;;
-  help)
-    helptext
+  help )
+    helptext $1 $2
     ;;
   *)
     error "Invalid option: $1" 1>&2
