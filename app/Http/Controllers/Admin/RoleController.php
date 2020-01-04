@@ -10,7 +10,7 @@ use Monica\Http\Requests\Admin\StoreRolesRequest;
 use Monica\Http\Requests\Admin\UpdateRolesRequest;
 use Illuminate\Support\Facades\Auth;
 
-class RolesController extends Controller
+class RoleController extends Controller
 {
     public function __construct()
     {
