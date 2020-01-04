@@ -10,7 +10,7 @@ use Illuminate\Auth\AuthManager as Auth;
 use Illuminate\Contracts\Auth\Access\Gate;
 use Silber\Bouncer\Database\Role;
 
-class AdminsController extends Controller
+class AdminController extends Controller
 {
     protected $auth;
 
