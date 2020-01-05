@@ -142,12 +142,15 @@ class AbilityController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
+        $deletedAbilities = 0;
         if ($request->input('ids')) {
             $entries = $this->ability->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
             }
+            $deletedAbilities = $entries->count();
         }
+        return $deletedAbilities;
     }
 }
