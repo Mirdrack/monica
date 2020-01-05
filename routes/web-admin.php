@@ -29,8 +29,8 @@ $this->group(['prefix' => 'admin', 'as' => 'admin.'], function () {
         $this->post('roles_mass_destroy', 'Admin\RoleController@massDestroy')->name('roles.mass_destroy');
 
         // Abilities Routes
-        $this->resource('abilities', 'Admin\AbilitiesController');
-        $this->post('abilities_mass_destroy', 'Admin\AbilitiesController@massDestroy')->name('abilities.mass_destroy');
+        $this->resource('abilities', 'Admin\AbilityController');
+        $this->post('abilities_mass_destroy', 'Admin\AbilityController@massDestroy')->name('abilities.mass_destroy');
 
         // Admin Change Password Routes
         $this->get('change_password', 'Auth\AdminChangePasswordController@showChangePasswordForm')

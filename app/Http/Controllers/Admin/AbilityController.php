@@ -1,20 +1,39 @@
 <?php
 namespace Monica\Http\Controllers\Admin;
 
+use Illuminate\Http\Request;
+use Illuminate\Contracts\Auth\Access\Gate;
+use Illuminate\Auth\AuthManager as Auth;
+use Monica\Http\Controllers\Controller;
 use Monica\Http\Requests\Admin\StoreAbilitiesRequest;
 use Monica\Http\Requests\Admin\UpdateAbilitiesRequest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
-use Monica\Http\Controllers\Controller;
 use Silber\Bouncer\Database\Ability;
-use Silber\Bouncer\BouncerFacade as Bouncer;
-use Illuminate\Support\Facades\Auth;
 
-class AbilitiesController extends Controller
+class AbilityController extends Controller
 {
-    public function __construct()
+    /**
+     * Handle authentication functions
+     * @var \Illuminate\Auth\AuthManager
+     */
+    protected $auth;
+
+    /**
+     * Checks the user permissions
+     * @var \Illuminate\Contracts\Auth\Access\Gate
+     */
+    protected $gate;
+
+    /**
+     * @var Silber\Bouncer\Database\Ability
+     */
+    protected $ability;
+
+    public function __construct(Auth $auth, Gate $gate, Ability $ability)
     {
-        Auth::shouldUse('admin');
+        $this->auth = $auth;
+        $this->gate = $gate;
+        $this->ability = $ability;
+        $this->auth->shouldUse('admin');
     }
 
     /**
@@ -24,11 +43,11 @@ class AbilitiesController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
 
-        $abilities = Ability::all();
+        $abilities = $this->ability->all();
 
         return view('admin.abilities.index', compact('abilities'));
     }
@@ -40,7 +59,7 @@ class AbilitiesController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
         return view('admin.abilities.create');
@@ -54,14 +73,13 @@ class AbilitiesController extends Controller
      */
     public function store(StoreAbilitiesRequest $request)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        Ability::create($request->all());
+        $this->ability->create($request->all());
 
         return redirect()->route('admin.abilities.index');
     }
-
 
     /**
      * Show the form for editing Ability.
@@ -71,10 +89,10 @@ class AbilitiesController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $ability = Ability::findOrFail($id);
+        $ability = $this->ability->findOrFail($id);
 
         return view('admin.abilities.edit', compact('ability'));
     }
@@ -88,15 +106,14 @@ class AbilitiesController extends Controller
      */
     public function update(UpdateAbilitiesRequest $request, $id)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $ability = Ability::findOrFail($id);
+        $ability = $this->ability->findOrFail($id);
         $ability->update($request->all());
 
         return redirect()->route('admin.abilities.index');
     }
-
 
     /**
      * Remove Ability from storage.
@@ -106,10 +123,10 @@ class AbilitiesController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $ability = Ability::findOrFail($id);
+        $ability = $this->ability->findOrFail($id);
         $ability->delete();
 
         return redirect()->route('admin.abilities.index');
@@ -122,15 +139,18 @@ class AbilitiesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('admins_manage')) {
+        if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
+        $deletedAbilities = 0;
         if ($request->input('ids')) {
-            $entries = Ability::whereIn('id', $request->input('ids'))->get();
+            $entries = $this->ability->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
             }
+            $deletedAbilities = $entries->count();
         }
+        return $deletedAbilities;
     }
 }
