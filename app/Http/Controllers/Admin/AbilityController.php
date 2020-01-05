@@ -10,7 +10,7 @@ use Silber\Bouncer\Database\Ability;
 use Silber\Bouncer\BouncerFacade as Bouncer;
 use Illuminate\Support\Facades\Auth;
 
-class AbilitiesController extends Controller
+class AbilityController extends Controller
 {
     public function __construct()
     {
