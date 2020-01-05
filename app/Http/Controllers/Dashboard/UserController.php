@@ -84,7 +84,7 @@ class UserController extends Controller
             return abort(401);
         }
 
-        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        $tenant = $this->tenant->where('subdomain', $subdomain)->first();
         if ($tenant) {
             $roles = Role::get()->pluck('title', 'name');
             return view('dashboard.users.create', compact('roles', 'tenant'));
@@ -104,9 +104,9 @@ class UserController extends Controller
             return abort(401);
         }
 
-        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        $tenant = $this->tenant->where('subdomain', $subdomain)->first();
         if ($tenant) {
-            $user = User::create($request->all());
+            $user = $this->user->create($request->all());
             foreach ($request->input('roles') as $role) {
                 $user->assign($role);
             }
@@ -126,12 +126,12 @@ class UserController extends Controller
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        $tenant = $this->tenant->where('subdomain', $subdomain)->first();
 
         if ($tenant) {
             $roles = Role::get()->pluck('title', 'name');
 
-            $user = User::findOrFail($id);
+            $user = $this->user->findOrFail($id);
 
             return view('dashboard.users.edit', compact('user', 'roles', 'tenant'));
         }
@@ -150,7 +150,7 @@ class UserController extends Controller
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $user = User::findOrFail($id);
+        $user = $this->user->findOrFail($id);
         $user->update($request->all());
         foreach ($user->roles as $role) {
             $user->retract($role);
@@ -173,7 +173,7 @@ class UserController extends Controller
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $user = User::findOrFail($id);
+        $user = $this->user->findOrFail($id);
         $user->delete();
 
         return redirect()->route('dashboard.users.index', $subdomain);
@@ -184,17 +184,21 @@ class UserController extends Controller
      *
      * @param Request $request
      */
-    public function massDestroy($subdomain, Request $request)
+    public function massDestroy(Request $request)
     {
+        // TO DO: Allow deleted only for the current tenant
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
+        $usersDeleted = 0;
         if ($request->input('ids')) {
-            $entries = User::whereIn('id', $request->input('ids'))->get();
+            $entries = $this->user->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
             }
+            $usersDeleted = $entries->count();
         }
+        return $usersDeleted;
     }
 }
