@@ -43,17 +43,17 @@ class StoreTest extends UserControllerTestCase
         $this->userController->store($this->storeUsersRequest, 'test-domain');
     }
 
-    // public function testIndexWithNonExistentTenant()
-    // {
-    //     $this->gate->shouldReceive('allows')
-    //         ->andReturn(true);
-    //     $this->tenant->shouldReceive('where')
-    //         ->once()->andReturnSelf();
-    //     $this->tenant->shouldReceive('first')
-    //         ->once()->andReturn(null);
+    public function testIndexWithNonExistentTenant()
+    {
+        $this->gate->shouldReceive('allows')
+            ->andReturn(true);
+        $this->tenant->shouldReceive('where')
+            ->once()->andReturnSelf();
+        $this->tenant->shouldReceive('first')
+            ->once()->andReturn(null);
 
-    //     $this->expectException(HttpException::class);
+        $this->expectException(HttpException::class);
 
-    //     $result = $this->userController->index('test');
-    // }
+        $result = $this->userController->index($this->storeUsersRequest, 'no-domain');
+    }
 }
