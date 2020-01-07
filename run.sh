@@ -1,4 +1,5 @@
 #!/bin/bash
+set +x -e
 
 RED="\x1B[1;31m"
 GREEN="\x1B[1;32m"
