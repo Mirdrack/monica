@@ -3,8 +3,8 @@
 namespace Tests\Unit\Controllers\Dashboard\UserController;
 
 use Mockery;
-use Tests\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class StoreTest extends UserControllerTestCase
 {
@@ -16,24 +16,28 @@ class StoreTest extends UserControllerTestCase
         $this->storeUsersRequest = Mockery::mock('\Monica\Http\Requests\User\StoreUsersRequest');
     }
 
-    public function testSuccessfulIndex()
+    public function testSuccessfulStore()
     {
+        $userData = [
+            'tenant_id' => 1,
+            'name' => 'testuser',
+            'email' => 'email@user.com',
+            'password' => 'supersecret',
+        ];
         $this->gate->shouldReceive('allows')
             ->andReturn(true);
-        $this->tenant->shouldReceive('where', 'first', 'getAttribute')
+        $this->tenant->shouldReceive('where', 'first')
             ->once()->andReturnSelf();
-        $this->user->shouldReceive('with', 'where', 'get')
-            ->once()->andReturnSelf();
+        $this->storeUsersRequest->shouldReceive('all')->andReturn($this->user);
+        $this->user->shouldReceive('create')->andReturnSelf();
+        $this->storeUsersRequest->shouldReceive('input')->andReturn($userData);
+        $this->user->shouldReceive('assign')->andReturnSelf();
 
-        $result = $this->userController->index('test');
-
-        $this->assertInstanceOf('Illuminate\View\View', $result);
-        $this->assertEquals('dashboard.users.index', $result->getName());
-        $this->assertArrayHasKey('users', $result->getData());
-        $this->assertArrayHasKey('tenant', $result->getData());
+        $result = $this->userController->store($this->storeUsersRequest, 'test');
+        $this->assertInstanceOf('Illuminate\Http\RedirectResponse', $result);
     }
 
-    public function testForbiddenIndex()
+    public function testForbiddenStore()
     {
         $this->gate->shouldReceive('allows')
             ->andReturn(false);
@@ -52,8 +56,8 @@ class StoreTest extends UserControllerTestCase
         $this->tenant->shouldReceive('first')
             ->once()->andReturn(null);
 
-        $this->expectException(HttpException::class);
+        $this->expectException(NotFoundHttpException::class);
 
-        $result = $this->userController->index($this->storeUsersRequest, 'no-domain');
+        $result = $this->userController->store($this->storeUsersRequest, 'no-domain');
     }
 }
