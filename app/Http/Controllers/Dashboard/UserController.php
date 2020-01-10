@@ -37,18 +37,25 @@ class UserController extends Controller
     protected $user;
 
     /**
+     * @var Silber\Bouncer\Database\Role
+     */
+    protected $role;
+
+    /**
      * Sets auth manager and permission gate and the middlewares
      * @param Auth $auth
      * @param Gate $gate
      * @param Tenant $tenant
      * @param User   $user
+     * @param Role   $role
      */
-    public function __construct(Auth $auth, Gate $gate, Tenant $tenant, User $user)
+    public function __construct(Auth $auth, Gate $gate, Tenant $tenant, User $user, Role $role)
     {
         $this->auth = $auth;
         $this->gate = $gate;
         $this->tenant = $tenant;
         $this->user = $user;
+        $this->role = $role;
         $this->auth->guard('web');
     }
 
@@ -86,7 +93,7 @@ class UserController extends Controller
 
         $tenant = $this->tenant->where('subdomain', $subdomain)->first();
         if ($tenant) {
-            $roles = Role::get()->pluck('title', 'name');
+            $roles = $this->role->get()->pluck('title', 'name');
             return view('dashboard.users.create', compact('roles', 'tenant'));
         }
         return abort(404);
@@ -129,7 +136,7 @@ class UserController extends Controller
         $tenant = $this->tenant->where('subdomain', $subdomain)->first();
 
         if ($tenant) {
-            $roles = Role::get()->pluck('title', 'name');
+            $roles = $this->role->get()->pluck('title', 'name');
 
             $user = $this->user->findOrFail($id);
 
