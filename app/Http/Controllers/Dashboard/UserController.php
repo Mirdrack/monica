@@ -27,17 +27,17 @@ class UserController extends Controller
     protected $gate;
 
     /**
-     * @var Monica\Models\Tenant
+     * @var \Monica\Models\Tenant
      */
     protected $tenant;
 
     /**
-     * @var Monica\Models\User
+     * @var \Monica\Models\User
      */
     protected $user;
 
     /**
-     * @var Silber\Bouncer\Database\Role
+     * @var \Silber\Bouncer\Database\Role
      */
     protected $role;
 
