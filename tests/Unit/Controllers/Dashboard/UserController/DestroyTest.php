@@ -29,18 +29,4 @@ class DestroyTest extends UserControllerTestCase
 
         $this->userController->destroy('test', 1);
     }
-
-    // public function testDestroyWithNonExistentTenant()
-    // {
-    //     $this->gate->shouldReceive('allows')
-    //         ->andReturn(true);
-    //     $this->tenant->shouldReceive('where')
-    //         ->once()->andReturnSelf();
-    //     $this->tenant->shouldReceive('first')
-    //         ->once()->andReturn(null);
-
-    //     $this->expectException(NotFoundHttpException::class);
-
-    //     $result = $this->userController->edit('test', 1);
-    // }
 }

@@ -3,8 +3,8 @@
 namespace Tests\Unit\Controllers\Dashboard\UserController;
 
 use Mockery;
-use Tests\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class IndexTest extends UserControllerTestCase
 {
@@ -44,7 +44,7 @@ class IndexTest extends UserControllerTestCase
         $this->tenant->shouldReceive('first')
             ->once()->andReturn(null);
 
-        $this->expectException(HttpException::class);
+        $this->expectException(NotFoundHttpException::class);
 
         $result = $this->userController->index('test');
     }

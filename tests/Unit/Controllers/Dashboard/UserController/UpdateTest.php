@@ -4,7 +4,6 @@ namespace Tests\Unit\Controllers\Dashboard\UserController;
 
 use Mockery;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class UpdateTest extends UserControllerTestCase

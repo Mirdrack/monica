@@ -3,7 +3,6 @@
 namespace Tests\Unit\Controllers\Dashboard\UserController;
 
 use Mockery;
-use Tests\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class MassDestroyTest extends UserControllerTestCase
