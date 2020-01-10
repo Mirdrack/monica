@@ -22,7 +22,7 @@ class ResetPassword extends Notification
 
     /**
      * The tenant where user belongs
-     * @var Tenant
+     * @var \Monica\Models\Tenant
      */
     public $tenant;
 

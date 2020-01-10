@@ -24,7 +24,7 @@ class AbilityController extends Controller
     protected $gate;
 
     /**
-     * @var Silber\Bouncer\Database\Ability
+     * @var \Silber\Bouncer\Database\Ability
      */
     protected $ability;
 

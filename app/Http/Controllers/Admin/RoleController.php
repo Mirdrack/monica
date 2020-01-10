@@ -25,7 +25,7 @@ class RoleController extends Controller
     protected $gate;
 
     /**
-     * @var Silber\Bouncer\Database\Role
+     * @var \Silber\Bouncer\Database\Role
      */
     protected $role;
 
