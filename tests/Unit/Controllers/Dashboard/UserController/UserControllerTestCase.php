@@ -18,6 +18,8 @@ class UserControllerTestCase extends TestCase
 
     protected $user;
 
+    protected $role;
+
     public function setup()
     {
         parent::setup();
@@ -26,6 +28,7 @@ class UserControllerTestCase extends TestCase
         $this->gate = Mockery::mock('Illuminate\Contracts\Auth\Access\Gate');
         $this->tenant = Mockery::mock('Monica\Models\Tenant');
         $this->user = Mockery::mock('Monica\Models\User');
+        $this->role = Mockery::mock('Silber\Bouncer\Database\Role');
 
         $this->auth->shouldReceive('guard')
             ->andReturn(null);
@@ -34,7 +37,8 @@ class UserControllerTestCase extends TestCase
             $this->auth,
             $this->gate,
             $this->tenant,
-            $this->user
+            $this->user,
+            $this->role
         );
     }
 }

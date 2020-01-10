@@ -6,36 +6,38 @@ use Mockery;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class IndexTest extends UserControllerTestCase
+class EditTest extends UserControllerTestCase
 {
-    public function testSuccessfulIndex()
+    public function testSuccessfulRenderEdit()
     {
         $this->gate->shouldReceive('allows')
             ->andReturn(true);
-        $this->tenant->shouldReceive('where', 'first', 'getAttribute')
+        $this->tenant->shouldReceive('where', 'first')
             ->once()->andReturnSelf();
-        $this->user->shouldReceive('with', 'where', 'get')
-            ->once()->andReturnSelf();
+        $this->role->shouldReceive('get')->andReturnSelf();
+        $this->role->shouldReceive('pluck')->andReturn(['Admin' => 'admin']);
+        $this->user->shouldReceive('findOrFail')->andReturn($this->user);
 
-        $result = $this->userController->index('test');
+        $result = $this->userController->edit('test-tenant', 1);
 
         $this->assertInstanceOf('Illuminate\View\View', $result);
-        $this->assertEquals('dashboard.users.index', $result->getName());
-        $this->assertArrayHasKey('users', $result->getData());
+        $this->assertEquals('dashboard.users.edit', $result->getName());
+        $this->assertArrayHasKey('user', $result->getData());
+        $this->assertArrayHasKey('roles', $result->getData());
         $this->assertArrayHasKey('tenant', $result->getData());
     }
 
-    public function testForbiddenIndex()
+    public function testForbiddenRenderEdit()
     {
         $this->gate->shouldReceive('allows')
             ->andReturn(false);
 
         $this->expectException(HttpException::class);
 
-        $this->userController->index('test');
+        $this->userController->edit('test', 1);
     }
 
-    public function testIndexWithNonExistentTenant()
+    public function testEditWithNonExistentTenant()
     {
         $this->gate->shouldReceive('allows')
             ->andReturn(true);
@@ -46,6 +48,6 @@ class IndexTest extends UserControllerTestCase
 
         $this->expectException(NotFoundHttpException::class);
 
-        $result = $this->userController->index('test');
+        $result = $this->userController->edit('test', 1);
     }
 }

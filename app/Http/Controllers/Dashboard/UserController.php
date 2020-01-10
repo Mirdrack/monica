@@ -27,14 +27,19 @@ class UserController extends Controller
     protected $gate;
 
     /**
-     * @var Monica\Models\Tenant
+     * @var \Monica\Models\Tenant
      */
     protected $tenant;
 
     /**
-     * @var Monica\Models\User
+     * @var \Monica\Models\User
      */
     protected $user;
+
+    /**
+     * @var \Silber\Bouncer\Database\Role
+     */
+    protected $role;
 
     /**
      * Sets auth manager and permission gate and the middlewares
@@ -42,13 +47,15 @@ class UserController extends Controller
      * @param Gate $gate
      * @param Tenant $tenant
      * @param User   $user
+     * @param Role   $role
      */
-    public function __construct(Auth $auth, Gate $gate, Tenant $tenant, User $user)
+    public function __construct(Auth $auth, Gate $gate, Tenant $tenant, User $user, Role $role)
     {
         $this->auth = $auth;
         $this->gate = $gate;
         $this->tenant = $tenant;
         $this->user = $user;
+        $this->role = $role;
         $this->auth->guard('web');
     }
 
@@ -84,9 +91,9 @@ class UserController extends Controller
             return abort(401);
         }
 
-        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        $tenant = $this->tenant->where('subdomain', $subdomain)->first();
         if ($tenant) {
-            $roles = Role::get()->pluck('title', 'name');
+            $roles = $this->role->get()->pluck('title', 'name');
             return view('dashboard.users.create', compact('roles', 'tenant'));
         }
         return abort(404);
@@ -104,9 +111,9 @@ class UserController extends Controller
             return abort(401);
         }
 
-        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        $tenant = $this->tenant->where('subdomain', $subdomain)->first();
         if ($tenant) {
-            $user = User::create($request->all());
+            $user = $this->user->create($request->all());
             foreach ($request->input('roles') as $role) {
                 $user->assign($role);
             }
@@ -126,12 +133,12 @@ class UserController extends Controller
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $tenant = Tenant::where('subdomain', $subdomain)->first();
+        $tenant = $this->tenant->where('subdomain', $subdomain)->first();
 
         if ($tenant) {
-            $roles = Role::get()->pluck('title', 'name');
+            $roles = $this->role->get()->pluck('title', 'name');
 
-            $user = User::findOrFail($id);
+            $user = $this->user->findOrFail($id);
 
             return view('dashboard.users.edit', compact('user', 'roles', 'tenant'));
         }
@@ -150,7 +157,7 @@ class UserController extends Controller
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $user = User::findOrFail($id);
+        $user = $this->user->findOrFail($id);
         $user->update($request->all());
         foreach ($user->roles as $role) {
             $user->retract($role);
@@ -173,7 +180,7 @@ class UserController extends Controller
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
-        $user = User::findOrFail($id);
+        $user = $this->user->findOrFail($id);
         $user->delete();
 
         return redirect()->route('dashboard.users.index', $subdomain);
@@ -184,17 +191,21 @@ class UserController extends Controller
      *
      * @param Request $request
      */
-    public function massDestroy($subdomain, Request $request)
+    public function massDestroy(Request $request)
     {
+        // TO DO: Allow deleted only for the current tenant
         if (! $this->gate->allows('users_manage')) {
             return abort(401);
         }
+        $usersDeleted = 0;
         if ($request->input('ids')) {
-            $entries = User::whereIn('id', $request->input('ids'))->get();
+            $entries = $this->user->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
             }
+            $usersDeleted = $entries->count();
         }
+        return $usersDeleted;
     }
 }
