@@ -25,7 +25,7 @@ class AdminController extends Controller
     protected $gate;
 
     /**
-     * @var Monica\Models\Tenant
+     * @var \Monica\Models\Tenant
      */
     protected $admin;
 
