@@ -47,7 +47,7 @@ class StoreTest extends UserControllerTestCase
         $this->userController->store($this->storeUsersRequest, 'test-domain');
     }
 
-    public function testIndexWithNonExistentTenant()
+    public function testStoreWithNonExistentTenant()
     {
         $this->gate->shouldReceive('allows')
             ->andReturn(true);
