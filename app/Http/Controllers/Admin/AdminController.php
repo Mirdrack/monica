@@ -123,7 +123,7 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $admin = Admin::findOrFail($id);
+        $admin = $this->admin->findOrFail($id);
         $admin->fill($request->all());
         $admin->save();
         foreach ($admin->roles as $role) {
