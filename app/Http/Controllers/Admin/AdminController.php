@@ -110,9 +110,9 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $roles = Role::get()->pluck('title', 'name');
+        $roles = $this->role->get()->pluck('title', 'name');
 
-        $admin = Admin::findOrFail($id);
+        $admin = $this->admin->findOrFail($id);
 
         return view('admin.admins.edit', compact('admin', 'roles'));
     }
