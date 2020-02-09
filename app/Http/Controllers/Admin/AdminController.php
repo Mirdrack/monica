@@ -30,6 +30,11 @@ class AdminController extends Controller
     protected $admin;
 
     /**
+     * @var \Silber\Bouncer\Database\Role
+     */
+    protected $role;
+
+    /**
      * @param Auth  $auth
      * @param Gate  $gate
      * @param Admin $admin
