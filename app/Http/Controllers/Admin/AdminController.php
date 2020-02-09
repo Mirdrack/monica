@@ -34,11 +34,12 @@ class AdminController extends Controller
      * @param Gate  $gate
      * @param Admin $admin
      */
-    public function __construct(Auth $auth, Gate $gate, Admin $admin)
+    public function __construct(Auth $auth, Gate $gate, Admin $admin, Role $role)
     {
         $this->auth = $auth;
         $this->gate = $gate;
         $this->admin = $admin;
+        $this->role = $role;
         $this->auth->shouldUse('admin');
     }
 
@@ -67,7 +68,7 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $roles = Role::get()->pluck('title', 'name');
+        $roles = $this->role->get()->pluck('title', 'name');
 
         return view('admin.admins.create', compact('roles'));
     }
@@ -83,7 +84,7 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $admin = Admin::create($request->all());
+        $admin = $this->admin->create($request->all());
 
         foreach ($request->input('roles') as $role) {
             $admin->assign($role);
