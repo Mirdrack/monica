@@ -163,12 +163,15 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
+        $adminsDeleted = 0;
         if ($request->input('ids')) {
-            $entries = Admin::whereIn('id', $request->input('ids'))->get();
+            $entries = $this->admin->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
             }
+            $adminsDeleted = $entries->count();
         }
+        return $adminsDeleted;
     }
 }
