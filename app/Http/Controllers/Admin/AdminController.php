@@ -30,15 +30,21 @@ class AdminController extends Controller
     protected $admin;
 
     /**
+     * @var \Silber\Bouncer\Database\Role
+     */
+    protected $role;
+
+    /**
      * @param Auth  $auth
      * @param Gate  $gate
      * @param Admin $admin
      */
-    public function __construct(Auth $auth, Gate $gate, Admin $admin)
+    public function __construct(Auth $auth, Gate $gate, Admin $admin, Role $role)
     {
         $this->auth = $auth;
         $this->gate = $gate;
         $this->admin = $admin;
+        $this->role = $role;
         $this->auth->shouldUse('admin');
     }
 
@@ -67,7 +73,7 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $roles = Role::get()->pluck('title', 'name');
+        $roles = $this->role->get()->pluck('title', 'name');
 
         return view('admin.admins.create', compact('roles'));
     }
@@ -83,7 +89,7 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $admin = Admin::create($request->all());
+        $admin = $this->admin->create($request->all());
 
         foreach ($request->input('roles') as $role) {
             $admin->assign($role);
@@ -104,9 +110,9 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $roles = Role::get()->pluck('title', 'name');
+        $roles = $this->role->get()->pluck('title', 'name');
 
-        $admin = Admin::findOrFail($id);
+        $admin = $this->admin->findOrFail($id);
 
         return view('admin.admins.edit', compact('admin', 'roles'));
     }
@@ -123,7 +129,7 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $admin = Admin::findOrFail($id);
+        $admin = $this->admin->findOrFail($id);
         $admin->fill($request->all());
         $admin->save();
         foreach ($admin->roles as $role) {
@@ -147,7 +153,7 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $admin = Admin::findOrFail($id);
+        $admin = $this->admin->findOrFail($id);
         $admin->delete();
 
         return redirect()->route('admin.admins.index');
@@ -163,12 +169,15 @@ class AdminController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
+        $adminsDeleted = 0;
         if ($request->input('ids')) {
-            $entries = Admin::whereIn('id', $request->input('ids'))->get();
+            $entries = $this->admin->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
             }
+            $adminsDeleted = $entries->count();
         }
+        return $adminsDeleted;
     }
 }
