@@ -116,7 +116,7 @@ class RoleController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $role = Role::findOrFail($id);
+        $role = $this->role->findOrFail($id);
         $role->update($request->all());
         foreach ($role->getAbilities() as $ability) {
             $role->disallow($ability->name);
