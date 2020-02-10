@@ -79,7 +79,7 @@ class RoleController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $role = Role::create($request->all());
+        $role = $this->role->create($request->all());
         $role->allow($request->input('abilities'));
 
         return redirect()->route('admin.roles.index');
