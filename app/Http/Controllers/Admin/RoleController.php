@@ -29,11 +29,17 @@ class RoleController extends Controller
      */
     protected $role;
 
-    public function __construct(Auth $auth, Gate $gate, Role $role)
+    /**
+     * @var \Silber\Bouncer\Database\Ability
+     */
+    protected $ability;
+
+    public function __construct(Auth $auth, Gate $gate, Role $role, Ability $ability)
     {
         $this->auth = $auth;
         $this->gate = $gate;
         $this->role = $role;
+        $this->ability = $ability;
         $this->auth->shouldUse('admin');
     }
 
@@ -63,7 +69,7 @@ class RoleController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $abilities = Ability::get()->pluck('title', 'name');
+        $abilities = $this->ability->get()->pluck('title', 'name');
 
         return view('admin.roles.create', compact('abilities'));
     }
@@ -79,7 +85,7 @@ class RoleController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $role = Role::create($request->all());
+        $role = $this->role->create($request->all());
         $role->allow($request->input('abilities'));
 
         return redirect()->route('admin.roles.index');
@@ -97,9 +103,9 @@ class RoleController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $abilities = Ability::get()->pluck('title', 'name');
+        $abilities = $this->ability->get()->pluck('title', 'name');
 
-        $role = Role::findOrFail($id);
+        $role = $this->role->findOrFail($id);
 
         return view('admin.roles.edit', compact('role', 'abilities'));
     }
@@ -116,7 +122,7 @@ class RoleController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $role = Role::findOrFail($id);
+        $role = $this->role->findOrFail($id);
         $role->update($request->all());
         foreach ($role->getAbilities() as $ability) {
             $role->disallow($ability->name);
@@ -138,7 +144,7 @@ class RoleController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $role = Role::findOrFail($id);
+        $role = $this->role->findOrFail($id);
         $role->delete();
 
         return redirect()->route('admin.roles.index');
