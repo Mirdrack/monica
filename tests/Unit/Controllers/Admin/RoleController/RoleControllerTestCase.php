@@ -33,7 +33,8 @@ class RoleControllerTestCase extends TestCase
         $this->roleController = new RoleController(
             $this->auth,
             $this->gate,
-            $this->role
+            $this->role,
+            $this->ability
         );
     }
 }
