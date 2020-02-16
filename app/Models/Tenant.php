@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tenant extends Model
 {
-    use Uuids;
+    use Uuids, HasRolesAndAbilities;
 
     public $incrementing = false;
 
