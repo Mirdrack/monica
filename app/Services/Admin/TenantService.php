@@ -52,6 +52,15 @@ class TenantService
     }
 
     /**
+     * Retrieves all the tenants in the system
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getAll()
+    {
+        return $this->tenant->all();
+    }
+
+    /**
      * Extract the user data from the original request
      * in order to create the admin of the tenant
      * @param  array  $data Values from the request
