@@ -4,7 +4,7 @@ namespace Tests\Unit\Controllers\Admin\AbilityController;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class AbilityTest extends AbilityControllerTestCase
+class CreateTest extends AbilityControllerTestCase
 {
     public function testSuccessfulRenderCreate()
     {

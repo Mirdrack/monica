@@ -3,16 +3,12 @@
 namespace Tests\Unit\Controllers\Admin\RoleController;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class EditTest extends RoleControllerTestCase
 {
     public function testSuccessfulRenderEdit()
     {
-        $this->gate->shouldReceive('allows')
-            ->andReturn(true);
-        // $this->tenant->shouldReceive('where', 'first')
-        //     ->once()->andReturnSelf();
+        $this->gate->shouldReceive('allows')->andReturn(true);
         $this->role->shouldReceive('get')->andReturnSelf();
         $this->ability->shouldReceive('get')->andReturnSelf();
         $this->ability->shouldReceive('pluck')->andReturn(['Add' => 'add']);
