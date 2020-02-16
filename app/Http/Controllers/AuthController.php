@@ -72,7 +72,7 @@ class AuthController extends Controller
     {
         try {
             if (! $user = $this->jwt->parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
+                return response()->json(['error' => 'User not found'], 404);
             }
         } catch (TokenExpiredException $e) {
                 $oldToken = $this->jwt->getToken();
