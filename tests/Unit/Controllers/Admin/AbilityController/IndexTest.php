@@ -2,8 +2,6 @@
 
 namespace Tests\Unit\Controllers\Admin\AbilityController;
 
-use Mockery;
-use Tests\TestCase;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class IndexTest extends AbilityControllerTestCase
