@@ -53,7 +53,7 @@ class TenantController extends Controller
         if (! $this->gate->allows('admins_manage')) {
             return abort(401);
         }
-        $tenants = Tenant::all();
+        $tenants = $this->tenantService->getAll();
         return view('admin.tenants.index', compact('tenants'));
     }
 
