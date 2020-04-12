@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Http\Controllers\AdminHomeController;
+namespace Tests\Unit\Controllers\AdminHomeController;
 
 use Mockery;
 use Symfony\Component\HttpFoundation\Response;

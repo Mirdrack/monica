@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Http\Controllers\AuthController;
+namespace Tests\Unit\Controllers\AuthController;
 
 use Exception;
 use Mockery;
