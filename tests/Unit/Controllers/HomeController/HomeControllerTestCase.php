@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit\Http\Controllers\HomeController;
+namespace Tests\Unit\Controllers\HomeController;
 
 use Mockery;
 use Tests\TestCase;

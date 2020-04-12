@@ -65,20 +65,25 @@ class AuthController extends Controller
 
     /**
      * Refresh a token.
+     * If the token is still valid, it will be refreshed.
      *
      * @return \Illuminate\Http\JsonResponse
      */
     public function refresh()
     {
         try {
+            $this->jwt->parseToken()->authenticate();
             if (! $user = $this->jwt->parseToken()->authenticate()) {
-                return response()->json(['user_not_found'], 404);
+                return response()->json(['error' => 'User not found'], 404);
             }
         } catch (TokenExpiredException $e) {
                 $oldToken = $this->jwt->getToken();
                 $refreshed = $this->jwt->refresh($oldToken);
                 return response()->json(['access_token' => $refreshed]);
         }
+        $oldToken = $this->jwt->getToken();
+        $refreshed = $this->jwt->refresh($oldToken);
+        return response()->json(['access_token' => $refreshed]);
     }
 
     /**
