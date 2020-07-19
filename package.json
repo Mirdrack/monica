@@ -16,7 +16,7 @@
     "laravel-mix": "^2.0",
     "less": "^3.0.2",
     "less-loader": "^4.1.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.19"
   },
   "dependencies": {
     "admin-lte": "2.3.8",
